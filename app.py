@@ -10,7 +10,7 @@ class Program:
             print()
             print("Komennot")
             print(" 1 Luo satunnainen salausavain.")
-            print(" 2 Luo salausavain omista alkuluvuista.")
+            print(" 2 Luo oma salausavain.")
             print(" 3 Tulosta salausavaimen osat.")
             print(" q Lopeta ohjelma.")
 
@@ -24,7 +24,13 @@ class Program:
             elif cmd == "2":
                 p = int(input("1. alkuluku: "))
                 q = int(input("2. alkuluku: "))
-                self.key_components = self.key.create_key(p,q)
+                print("Jos et anna e:tä paina enter. Muuten kirjoita luku.")
+                e = input("e: ")
+                if e == "":
+                    self.key_components = self.key.create_key(p,q)
+                else:
+                    e = int(e)
+                    self.key_components = self.key.create_key(p,q,e)
 
             elif cmd == "3":
                 self.print_key_info()
@@ -47,7 +53,7 @@ class Key:
         self.prime_q = None
         self.ln = None
 
-    def create_key(self, p=None, q=None):
+    def create_key(self, p=None, q=None, e=None):
         # 1. Choose two primes p and q
         if not p:
             self.choose_primes()
@@ -59,7 +65,10 @@ class Key:
         # 3. Calculate lambda(n) = ln using Charmichael function
         self.carmichael_function()
         # 4. Choose e that is coprime with ln
-        self.choose_e()
+        if not e:
+            self.choose_e()
+        else:
+            self.public_key_e = e
 
     def choose_primes(self):
         self.prime_p = Prime().random_prime()
@@ -69,8 +78,8 @@ class Key:
     # lcm(a, b) = abs(ab) / gcd(a,b)
     def carmichael_function(self):
         gcd = self.euclidean_algorithm()
-        abs = abs((self.prime_p - 1) * (self.prime_q - 1))
-        self.ln = abs // gcd
+        absolute = abs((self.prime_p - 1) * (self.prime_q - 1))
+        self.ln = absolute // gcd
 
     # Euclidean algorithm solves the greatest common divisor gcd
     def euclidean_algorithm(self):
@@ -90,8 +99,9 @@ class Key:
     def choose_e(self):
         while True:
             e = Prime().random_prime(1, self.ln)
-            if self.ln % e == 0:
+            if self.ln % e != 0:
                 self.public_key_e = e
+                break
 
 class Prime:
     # Used for testing
@@ -112,7 +122,7 @@ class Prime:
         return True
 
     # returns a random prime number between a and b
-    def random_prime(self, a=10**12, b=10**13):
+    def random_prime(self, a=10**6, b=10**7):
         while True:
             n = randint(a, b)
             if self.trial_division(n):
