@@ -1,5 +1,34 @@
 from random import randint
 
+class Program:
+    def __init__(self):
+        self.prime_q = None
+        self.prime_p = None
+        self.program()
+
+    def program(self):
+        while True:
+            print()
+            print("Komennot")
+            print(" 1 Luo uudet satunnaiset alkuluvut.")
+            print(" 2 Katso alkuluvut.")
+            print(" q Lopeta ohjelma.")
+
+            cmd = input("Anna komento: ")
+            if cmd == "q":
+                break
+            elif cmd == "1":
+                self.prime_p = Prime().random_prime()
+                self.prime_q = Prime().random_prime()
+            elif cmd == "2":
+                print()
+                print("q: ", self.prime_q)
+                print("p: ", self.prime_p)
+                
+
+    def create_key(self):
+        pass
+
 class Prime:
     def __init__(self):
         pass
@@ -35,3 +64,5 @@ class Prime:
         prime = self.next_prime(n)
         return prime
 
+
+Program()
