@@ -1,4 +1,5 @@
 from random import randint
+import time
 
 class Program:
     def __init__(self):
@@ -19,18 +20,18 @@ class Program:
                 break
 
             elif cmd == "1":
-                self.key_components = self.key.create_key()
+                self.key.create_key()
             
             elif cmd == "2":
                 p = int(input("1. alkuluku: "))
                 q = int(input("2. alkuluku: "))
-                print("Jos et anna e:tä paina enter. Muuten kirjoita luku.")
+                print("Luo e satunnaisesti painamalla enter. Muuten kirjoita luku.")
                 e = input("e: ")
                 if e == "":
-                    self.key_components = self.key.create_key(p,q)
+                    self.key.create_key(p,q)
                 else:
                     e = int(e)
-                    self.key_components = self.key.create_key(p,q,e)
+                    self.key.create_key(p,q,e)
 
             elif cmd == "3":
                 self.print_key_info()
@@ -54,54 +55,140 @@ class Key:
         self.ln = None
 
     def create_key(self, p=None, q=None, e=None):
+
+        start = time.time() # CLOCKING
+
         # 1. Choose two primes p and q
         if not p:
-            self.choose_primes()
+            self.prime_p = Prime().random_prime()
+            self.prime_q = Prime().random_prime()
         else:
             self.prime_p = p
             self.prime_q = q
+
         # 2. Calculate n = pq
         self.public_key_n = self.prime_p * self.prime_q
-        # 3. Calculate lambda(n) = ln using Charmichael function
-        self.carmichael_function()
+
+        end = time.time() # CLOCKING
+        print("Vaiheet 1 ja 2") # CLOCKING
+        print(round(end - start, 10)) # CLOCKING
+        start = time.time() # CLOCKING
+
+        # 3. Calculate lambda(n) := ln using Charmichael function
+        # since p and q are prime problem reduces to ln = lcm(p-1, q-1)
+        # lcm means least common multiple
+        self.ln = self.lcm(self.prime_p - 1, self.prime_q - 1)
+
+        end = time.time() # CLOCKING
+        print("Vaihe 3") # CLOCKING
+        print(round(end - start, 10)) # CLOCKING
+        start = time.time() # CLOCKING
+
         # 4. Choose e that is coprime with ln
         if not e:
-            self.choose_e()
+            self.public_key_e = self.choose_e(self.ln)
         else:
             self.public_key_e = e
 
-    def choose_primes(self):
-        self.prime_p = Prime().random_prime()
-        self.prime_q = Prime().random_prime()
-    
-    # Carmichael function calculates lambda(n) = lcm(p-1, q-1)
+        end = time.time() # CLOCKING
+        print("Vaihe 4") # CLOCKING
+        print(round(end - start, 10)) # CLOCKING
+
+        start = time.time() # CLOCKING
+
+        # 5. determine d, the modular multiplicative inverse of e mod lambda(n)
+        self.secret_key_d = self.determine_d(self.public_key_e, self.ln)
+
+        end = time.time() # CLOCKING
+        print("Vaihe 5") # CLOCKING
+        print(round(end - start, 10)) # CLOCKING
+
     # lcm(a, b) = abs(ab) / gcd(a,b)
-    def carmichael_function(self):
-        gcd = self.euclidean_algorithm()
-        absolute = abs((self.prime_p - 1) * (self.prime_q - 1))
-        self.ln = absolute // gcd
+    # gcd means greatest common divisor and can be calculated with the euclidean algorithm
+    def lcm(self, a, b):
+        gcd = self.euclidean_algorithm(a,b)
+        absolute = abs(a * b)
+        ln = absolute // gcd
+        return ln
 
     # Euclidean algorithm solves the greatest common divisor gcd
-    def euclidean_algorithm(self):
-        a = self.prime_p - 1
-        b = self.prime_q - 1
-        while True:
-            if a > b:
-                a = a % b
-            else:
-                b = b % a
-            if a == 0:
-                return b
-            if b == 0:
-                return a
-    
+    def euclidean_algorithm(self, a,b):
+        while b != 0:
+            t = b
+            b = a % b
+            a = t
+        return a
+        
     # e is coprime with ln if e is prime and it does not divide ln
-    def choose_e(self):
+    def choose_e(self, ln):
         while True:
-            e = Prime().random_prime(1, self.ln)
+            e = Prime().random_prime(2, ln)
             if self.ln % e != 0:
                 self.public_key_e = e
                 break
+        return e
+
+    def determine_d(self, e, ln):
+        d = self.multiplicative_inverse(e, ln)
+        return d
+
+    # This is a reduced version of the extended euclidian algorithm.
+    # It is based on the fact that e and ln are coprime (here a and b).
+    def multiplicative_inverse(self, a, b):
+        t = 0;     
+        newt = 1
+        r = b
+        newr = a
+
+        while newr != 0:
+            quotient = r // newr
+
+            # (t, newt) := (newt, t − quotient × newt) 
+            var = t
+            t = newt
+            newt = var - quotient * newt
+
+            var = r
+            r = newr 
+            newr = var - quotient * newr
+
+        if r > 1:
+            print("a ei ole kääntyvä")
+        if t < 0:
+            t = t + b
+
+        return t
+
+    # Can be used for testing.
+    # Function multiplicative_inverse can be used instead of this.
+    def extended_euclidian_algorithm(self, a, b):
+        # remainder = r
+        old_r, r = a, b
+        # s and r will be the Bezout's coefficients
+        old_s, s = 1, 0
+        old_t, t = 0, 1
+        while r != 0:
+            # quotient = q
+            q = old_r // r
+            
+            # calculate the remainder of old_r / r
+            var = r
+            r = old_r - q * var
+            old_r = var
+
+            # calculate the Bezout's coefficients.
+            # At the end Bezout's coefficients are old_s and old_t
+            # and quotients by the gcd are t and s (which are useless for our purposes).
+            var = s
+            s = old_s - q * s
+            old_s = var
+
+            var = t
+            t = old_t - q * t
+            old_t = var
+        
+        return {"Bezout coefficients": (old_s, old_t), "greatest common divisor": (old_r), "quotients by the gcd": (t, s)}
+
 
 class Prime:
     # Used for testing
@@ -127,5 +214,6 @@ class Prime:
             n = randint(a, b)
             if self.trial_division(n):
                 return n
+    
 
 Program()
