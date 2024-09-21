@@ -4,6 +4,7 @@ import time
 class Program:
     def __init__(self):
         self.key = Key()
+        self.message = Message()
         self.program()
 
     def program(self):
@@ -13,6 +14,9 @@ class Program:
             print(" 1 Luo satunnainen salausavain.")
             print(" 2 Luo oma salausavain.")
             print(" 3 Tulosta salausavaimen osat.")
+            print(" 4 Salaa viesti.")
+            print(" 5 Pura viestin salaus.")
+            print(" 6 Tulosta viestit.")
             print(" q Lopeta ohjelma.")
 
             cmd = input("Anna komento: ")
@@ -36,72 +40,127 @@ class Program:
             elif cmd == "3":
                 self.print_key_info()
 
+            elif cmd == "4":
+                print("Kirjoita salattava viesti")
+                m = str(input())
+                self.message.encrypt(m, self.key.e, self.key.n)
+                print()
+                print("Viesti salattuna")
+                print(self.message.encrypted)
+
+            elif cmd == "5":
+                print("Anna purettava viesti")
+                c = input()
+                print()
+                m = self.message.decrypt(int(c), self.key.d, self.key.n)
+                print()
+                print("Purettu viesti")
+                print("type:", type(m))
+                print(m)
+
+            elif cmd == "6":
+                print()
+                print("Teksti")
+                print(self.message.plain_text)
+                print()
+                print("Salaamaton kokonaisluku")
+                print(self.message.integer)
+                print()
+                print("Salattu kokonaisluku")
+                print(self.message.encrypted)
+
     def print_key_info(self):
         print()
-        print("d: ", self.key.secret_key_d)
-        print("n: ", self.key.public_key_n)
-        print("e: ", self.key.public_key_e)
-        print("p: ", self.key.prime_p)
-        print("q: ", self.key.prime_q)
+        print("d: ", self.key.d)
+        print("n: ", self.key.n)
+        print("e: ", self.key.e)
+        print("p: ", self.key.p)
+        print("q: ", self.key.q)
         print("ln:", self.key.ln)
-                        
+
+
+class Message:
+    def __init__(self):
+        self.plain_text = None
+        self.integer = None
+        self.encrypted = None
+
+    def encrypt(self, message, e, n):
+        print("e:", e, " n:", n)
+        self.plain_text = message
+        #message = self.text_to_integer(message)
+        self.integer = message
+        self.encrypted = pow(int(message), e, n)
+        #return self.encrypted
+
+    def decrypt(self, c, d, n):
+        print("d:", d, " n:", n)
+        m = pow(c, d, n)
+        print("m:", m)
+        return m
+        #return self.integer_to_text(m)
+
+
 class Key:
     def __init__(self):
-        self.secret_key_d = None
-        self.public_key_n = None
-        self.public_key_e = None
-        self.prime_p = None
-        self.prime_q = None
+        # d is the secret key
+        self.d = None
+        # n and e are the public keys
+        self.n = None
+        self.e = None
+        # p, q and ln are used to create the keys
+        self.p = None
+        self.q = None
         self.ln = None
 
     def create_key(self, p=None, q=None, e=None):
 
+        print() # CLOCKING
         start = time.time() # CLOCKING
 
         # 1. Choose two primes p and q
         if not p:
-            self.prime_p = Prime().random_prime()
-            self.prime_q = Prime().random_prime()
+            self.p = Prime().random_prime()
+            self.q = Prime().random_prime()
         else:
-            self.prime_p = p
-            self.prime_q = q
+            self.p = p
+            self.q = q
 
         # 2. Calculate n = pq
-        self.public_key_n = self.prime_p * self.prime_q
+        self.n = self.p * self.q
 
         end = time.time() # CLOCKING
-        print("Vaiheet 1 ja 2") # CLOCKING
-        print(round(end - start, 10)) # CLOCKING
+        self.print_clock(start, end, "1-2") # CLOCKING
         start = time.time() # CLOCKING
 
         # 3. Calculate lambda(n) := ln using Charmichael function.
         # Since p and q are primes the problem reduces to ln = lcm(p-1, q-1),
         # where lcm means least common multiple.
-        self.ln = self.lcm(self.prime_p - 1, self.prime_q - 1)
+        self.ln = self.lcm(self.p - 1, self.q - 1)
 
         end = time.time() # CLOCKING
-        print("Vaihe 3") # CLOCKING
-        print(round(end - start, 10)) # CLOCKING
+        self.print_clock(start, end, 3) # CLOCKING
         start = time.time() # CLOCKING
 
         # 4. Choose e that is coprime with ln
         if not e:
-            self.public_key_e = self.choose_e(self.ln)
+            self.e = self.choose_e(self.ln)
         else:
-            self.public_key_e = e
+            self.e = e
 
         end = time.time() # CLOCKING
-        print("Vaihe 4") # CLOCKING
-        print(round(end - start, 10)) # CLOCKING
-
+        self.print_clock(start, end, 4) # CLOCKING
         start = time.time() # CLOCKING
 
         # 5. determine d, the modular multiplicative inverse of e mod lambda(n)
-        self.secret_key_d = self.determine_d(self.public_key_e, self.ln)
+        self.d = self.determine_d(self.e, self.ln)
 
         end = time.time() # CLOCKING
-        print("Vaihe 5") # CLOCKING
-        print(round(end - start, 10)) # CLOCKING
+        self.print_clock(start, end, 5) # CLOCKING
+
+    def print_clock(self, start, end, step):
+        print("Vaihe", str(step))
+        print(round(end - start, 5))
 
     # lcm(a, b) = abs(ab) / gcd(a,b)
     # gcd means greatest common divisor and can be calculated with the euclidean algorithm
@@ -125,7 +184,7 @@ class Key:
         while True:
             e = Prime().random_prime(2, ln)
             if self.ln % e != 0:
-                self.public_key_e = e
+                self.e = e
                 break
         return e
 
