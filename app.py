@@ -74,9 +74,9 @@ class Key:
         print(round(end - start, 10)) # CLOCKING
         start = time.time() # CLOCKING
 
-        # 3. Calculate lambda(n) := ln using Charmichael function
-        # since p and q are prime problem reduces to ln = lcm(p-1, q-1)
-        # lcm means least common multiple
+        # 3. Calculate lambda(n) := ln using Charmichael function.
+        # Since p and q are primes the problem reduces to ln = lcm(p-1, q-1),
+        # where lcm means least common multiple.
         self.ln = self.lcm(self.prime_p - 1, self.prime_q - 1)
 
         end = time.time() # CLOCKING
@@ -119,7 +119,8 @@ class Key:
             a = t
         return a
         
-    # e is coprime with ln if e is prime and it does not divide ln
+    # choose e that is coprime with ln. 
+    # This is assured when e is prime and it does not divide ln.
     def choose_e(self, ln):
         while True:
             e = Prime().random_prime(2, ln)
@@ -143,7 +144,6 @@ class Key:
         while newr != 0:
             quotient = r // newr
 
-            # (t, newt) := (newt, t − quotient × newt) 
             var = t
             t = newt
             newt = var - quotient * newt
@@ -177,7 +177,7 @@ class Key:
             old_r = var
 
             # calculate the Bezout's coefficients.
-            # At the end Bezout's coefficients are old_s and old_t
+            # At the end of the algorithm Bezout's coefficients are old_s and old_t
             # and quotients by the gcd are t and s (which are useless for our purposes).
             var = s
             s = old_s - q * s
@@ -199,7 +199,8 @@ class Prime:
             193,197,199,211,223,227,229,233,239,241,251,257,
             263,269,271,] 
 
-    # tests whether a given number is prime
+    # This is the simplest algorithm to test whether a given number is prime.
+    # It is inefficient with large numbers.
     def trial_division(self, nro: int) -> bool: 
         i = 2
         while i*i <= nro:
