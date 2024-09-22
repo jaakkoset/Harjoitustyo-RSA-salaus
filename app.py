@@ -41,6 +41,8 @@ class Program:
                 self.print_key_info()
 
             elif cmd == "4":
+                if self.no_key():
+                    continue
                 print("Kirjoita salattava viesti")
                 m = str(input())
                 self.message.encrypt(m, self.key.e, self.key.n)
@@ -49,13 +51,13 @@ class Program:
                 print(self.message.encrypted)
 
             elif cmd == "5":
+                if self.no_key():
+                    continue
                 print("Anna purettava viesti")
                 c = input()
-                print()
                 m = self.message.decrypt(int(c), self.key.d, self.key.n)
                 print()
                 print("Purettu viesti")
-                print("type:", type(m))
                 print(m)
 
             elif cmd == "6":
@@ -78,6 +80,14 @@ class Program:
         print("q: ", self.key.q)
         print("ln:", self.key.ln)
 
+    # Checks if no key exists.
+    def no_key(self) -> bool:
+        if not self.key.d:
+            print()
+            print("Avainta ei ole luotu.")
+            return True
+        return False
+
 
 class Message:
     def __init__(self):
@@ -86,19 +96,49 @@ class Message:
         self.encrypted = None
 
     def encrypt(self, message, e, n):
-        print("e:", e, " n:", n)
+        #print("e:", e, " n:", n)
         self.plain_text = message
-        #message = self.text_to_integer(message)
+        message = self.text_to_integer(message)
         self.integer = message
         self.encrypted = pow(int(message), e, n)
         #return self.encrypted
 
     def decrypt(self, c, d, n):
-        print("d:", d, " n:", n)
+        #print("d:", d, " n:", n)
         m = pow(c, d, n)
-        print("m:", m)
-        return m
-        #return self.integer_to_text(m)
+        #print("m:", m)
+        #return m
+        return self.integer_to_text(m)
+
+    # Turns text into an integer.
+    # Finds the ASCII-value for each character and concatenates them.
+    # If ASCII-value is less that 100, a 3 is added on the left side of the number
+    # so that all characters get a value three digits long. Largest ASCII-value is
+    # 255, so this creates no problems.
+    def text_to_integer(self, text):
+        #integer = "1" V2
+        integer = ""
+        for character in text:
+            a = ord(character)
+            if a < 100:
+                #a = "0" + str(a) V2
+                a = "3" + str(a)
+            integer = integer + str(a)
+        return int(integer)
+    
+    # Turns integers back to text.
+    def integer_to_text(self, integer):
+        text = ""
+        integer = str(integer)
+        #for i in range(1, len(integer) - 1 , 3): V2
+        for i in range(0, len(integer) - 2 , 3):
+            ascii = ""
+            if int(integer[i]) != 3:
+                ascii = ascii + integer[i]
+            ascii = ascii + integer[i+1] + integer[i+2]
+            #print("ascii:",ascii)
+            text = text + chr(int(ascii))
+        return text
 
 
 class Key:
