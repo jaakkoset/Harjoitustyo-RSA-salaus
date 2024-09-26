@@ -73,12 +73,18 @@ class Program:
 
     def print_key_info(self):
         print()
-        print("d: ", self.key.d)
-        print("n: ", self.key.n)
-        print("e: ", self.key.e)
-        print("p: ", self.key.p)
-        print("q: ", self.key.q)
-        print("ln:", self.key.ln)
+        print("d.  Pituus ", len(str(self.key.d)))
+        print(self.key.d)
+        print("n.  Pituus ", len(str(self.key.n)))
+        print(self.key.n)
+        print("e.  Pituus ", len(str(self.key.e)))
+        print(self.key.e)
+        print("p.  Pituus ", len(str(self.key.p)))
+        print(self.key.p)
+        print("q.  Pituus ", len(str(self.key.q)))
+        print(self.key.q)
+        print("ln. Pituus", len(str(self.key.ln)))
+        print(self.key.ln)
 
     # Checks if no key exists.
     def no_key(self) -> bool:
@@ -298,8 +304,44 @@ class Prime:
             193,197,199,211,223,227,229,233,239,241,251,257,
             263,269,271,] 
 
+
+
+
+    # Tests whether a given number is probably prime.
+    # Returns true when number is prime and false otherwise.
+    def miller_rabin(self, n) -> bool:
+        k = 40
+        s, d = self.factor_twos(n-1)
+        #print("s:", s, "d:", d)
+        if s == 0:
+            raise ValueError("n ei saa olla parillinen")
+        for i in range(k):
+            a = randint(2, n-2)
+            x = pow(a, d, n)
+            for j in range(s):
+                y = pow(x, 2, n)
+                if y == 1 and x != 1 and x != n-1:
+                    return False
+                x = y
+            if y != 1:
+                return False
+        return True
+
+
+    # Finds out how many twos are in the factors of a number.
+    # That is returns integer a as 2^s * d.
+    def factor_twos(self, n):
+        s = 0
+        while n % 2 == 0:
+            if n % 2 == 0:
+                s += 1
+            n = n//2
+        return s, n
+
+
     # This is the simplest algorithm to test whether a given number is prime.
     # It is inefficient with large numbers.
+    # Returns true when number is prime and false otherwise.
     def trial_division(self, nro: int) -> bool: 
         i = 2
         while i*i <= nro:
@@ -308,12 +350,19 @@ class Prime:
             i += 1
         return True
 
-    # returns a random prime number between a and b
-    def random_prime(self, a=10**6, b=10**7):
+    # returns a smallish random prime number between a and b using trial division.
+    def random_prime_trial_division(self, a=10**7, b=10**8):
         while True:
             n = randint(a, b)
             if self.trial_division(n):
                 return n
-    
+
+    # returns a random prime number between a and b using Miller-Rabin.
+    def random_prime(self, a=10**200, b=10**201):
+        while True:
+            n = randint(a, b)
+            n = 2*n + 1
+            if self.miller_rabin(n):
+                return n
 
 Program()
