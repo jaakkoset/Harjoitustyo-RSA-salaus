@@ -294,8 +294,9 @@ class Key:
         
         return {"Bezout coefficients": (old_s, old_t), "greatest common divisor": (old_r), "quotients by the gcd": (t, s)}
 
-# This class is used to generate prime numbers for encryption keys
+
 class Prime:
+    """This class is used to generate prime numbers for encryption keys"""
     # Used for testing
     first_58_primes = [
             2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,
@@ -304,12 +305,11 @@ class Prime:
             193,197,199,211,223,227,229,233,239,241,251,257,
             263,269,271,] 
 
-    # Tests whether a given number is probably prime.
-    # Returns true when number is prime and false otherwise.
     def miller_rabin(self, n) -> bool:
+        """Function returns true when number is probably prime and false otherwise.
+        Uses the Miller-Rabin algorithm"""
         k = 40
         s, d = self.factor_twos(n-1)
-        #print("s:", s, "d:", d)
         if s == 0:
             raise ValueError("n ei saa olla parillinen")
         for i in range(k):
@@ -324,10 +324,9 @@ class Prime:
                 return False
         return True
 
-
-    # Finds out how many twos are in the factors of a number.
-    # That is, for a given integer a solves s and d in a := 2^s * d.
     def factor_twos(self, n):
+        """For the given integer n solves s and d in n := 2^s * d
+        and returns (s, d)."""
         s = 0
         while n % 2 == 0:
             if n % 2 == 0:
@@ -335,11 +334,10 @@ class Prime:
             n = n//2
         return s, n
 
-
-    # This is the simplest algorithm to test whether a given number is prime.
-    # It is inefficient with large numbers.
-    # Returns true when number is prime and false otherwise.
     def trial_division(self, nro: int) -> bool: 
+        """Returns true when the given number is prime and false otherwise.
+        This is the simplest algorithm to test whether a given number is prime.
+        It is inefficient with large numbers."""
         i = 2
         while i*i <= nro:
             if nro % i == 0:
@@ -347,22 +345,22 @@ class Prime:
             i += 1
         return True
 
-    # returns a smallish random prime number between a and b using trial division.
     def random_prime_trial_division(self, a=10**7, b=10**8):
+        """Function returns a smallish random prime number between a and b using trial division."""
         while True:
             n = randint(a, b)
             if self.trial_division(n):
                 return n
 
-    # returns a random prime number between a and b using Miller-Rabin.
     def random_prime(self, a=10**200, b=10**201):
+        """Function returns a random prime number between a and b using Miller-Rabin."""
         while True:
             n = randint(a, b)
             n = 2*n + 1
             if self.miller_rabin(n):
                 return n
 
-    def erastothenes_sieve(self, n):
+    def eratosthenes_sieve(self, n):
         """ Function calculates all primes up to n """
         # The list primes should start from index 2 and end at n. The first two True values are 
         # therefore unneeded, but created to simplify the usage of indeces.
