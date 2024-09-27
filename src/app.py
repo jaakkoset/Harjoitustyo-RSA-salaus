@@ -379,4 +379,5 @@ class Prime:
         primes = [i for i in range(2, n+1) if primes[i]]
         return primes
 
-Program()
+if __name__ == "__main__":
+    Program()
