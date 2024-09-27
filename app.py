@@ -94,7 +94,7 @@ class Program:
             return True
         return False
 
-
+# This class has methods to encrypt and decrypt messages 
 class Message:
     def __init__(self):
         self.plain_text = None
@@ -146,7 +146,7 @@ class Message:
             text = text + chr(int(ascii))
         return text
 
-
+# This class is used to create encryption keys
 class Key:
     def __init__(self):
         # d is the secret key
@@ -294,7 +294,7 @@ class Key:
         
         return {"Bezout coefficients": (old_s, old_t), "greatest common divisor": (old_r), "quotients by the gcd": (t, s)}
 
-
+# This class is used to generate prime numbers for encryption keys
 class Prime:
     # Used for testing
     first_58_primes = [
@@ -303,9 +303,6 @@ class Prime:
             131,137,139,149,151,157,163,167,173,179,181,191,
             193,197,199,211,223,227,229,233,239,241,251,257,
             263,269,271,] 
-
-
-
 
     # Tests whether a given number is probably prime.
     # Returns true when number is prime and false otherwise.
@@ -329,7 +326,7 @@ class Prime:
 
 
     # Finds out how many twos are in the factors of a number.
-    # That is returns integer a as 2^s * d.
+    # That is, for a given integer a solves s and d in a := 2^s * d.
     def factor_twos(self, n):
         s = 0
         while n % 2 == 0:
@@ -364,5 +361,24 @@ class Prime:
             n = 2*n + 1
             if self.miller_rabin(n):
                 return n
+
+    def erastothenes_sieve(self, n):
+        """ Function calculates all primes up to n """
+        # The list primes should start from index 2 and end at n. The first two True values are 
+        # therefore unneeded, but created to simplify the usage of indeces.
+        primes = [True for i in range(n+1)]
+        primes[0] = "NA"
+        primes[1] = "NA"
+        i = 2
+        while i*i <= n:
+            if primes[i]:
+                j = i**2
+                while j <= n:
+                    primes[j] = False
+                    j += i
+            i += 1
+        
+        primes = [i for i in range(2, n+1) if primes[i]]
+        return primes
 
 Program()
