@@ -55,10 +55,15 @@ class Program:
                     continue
                 print("Anna purettava viesti")
                 c = input()
-                m = self.message.decrypt(int(c), self.key.d, self.key.n)
                 print()
-                print("Purettu viesti")
-                print(m)
+                try:
+                    c = int(c)
+                    m = self.message.decrypt(c, self.key.d, self.key.n)
+                    print("Purettu viesti")
+                    print(m)
+                except:
+                    print("Salatut viestit ovat kokonaislukuja.")
+
 
             elif cmd == "6":
                 print()
@@ -86,81 +91,76 @@ class Program:
         print("ln. Pituus", len(str(self.key.ln)))
         print(self.key.ln)
 
-    # Checks if no key exists.
     def no_key(self) -> bool:
+        """Checks that no keys exist."""
         if not self.key.d:
             print()
             print("Avainta ei ole luotu.")
             return True
         return False
 
-# This class has methods to encrypt and decrypt messages 
+
 class Message:
+    """This class has methods to encrypt and decrypt messages """
     def __init__(self):
         self.plain_text = None
         self.integer = None
         self.encrypted = None
 
     def encrypt(self, message, e, n):
-        #print("e:", e, " n:", n)
+        """Encrypts message using keys e and n."""
         self.plain_text = message
         message = self.text_to_integer(message)
         self.integer = message
         self.encrypted = pow(int(message), e, n)
-        #return self.encrypted
 
     def decrypt(self, c, d, n):
-        #print("d:", d, " n:", n)
+        """Decrypts message c using keys d and n."""
         m = pow(c, d, n)
-        #print("m:", m)
-        #return m
         return self.integer_to_text(m)
 
-    # Turns text into an integer.
-    # Finds the ASCII-value for each character and concatenates them.
-    # If ASCII-value is less that 100, a 3 is added on the left side of the number
-    # so that all characters get a value three digits long. Largest ASCII-value is
-    # 255, so this creates no problems.
+
     def text_to_integer(self, text):
-        #integer = "1" V2
+        """Turns text into an integer."""
+        # Finds the ASCII-value for each character and concatenates the values.
+        # If ASCII-value is less that 100, a 3 is added on the left side of the number
+        # so that all characters get a value three digits long. Largest ASCII-value is
+        # 255, so this creates no problems.
         integer = ""
         for character in text:
             a = ord(character)
             if a < 100:
-                #a = "0" + str(a) V2
                 a = "3" + str(a)
             integer = integer + str(a)
         return int(integer)
     
-    # Turns integers back to text.
     def integer_to_text(self, integer):
+        """Turns integers back to text."""
         text = ""
         integer = str(integer)
-        #for i in range(1, len(integer) - 1 , 3): V2
         for i in range(0, len(integer) - 2 , 3):
             ascii = ""
             if int(integer[i]) != 3:
                 ascii = ascii + integer[i]
             ascii = ascii + integer[i+1] + integer[i+2]
-            #print("ascii:",ascii)
             text = text + chr(int(ascii))
         return text
 
-# This class is used to create encryption keys
+
 class Key:
+    """This class is used to create encryption keys"""
     def __init__(self):
         # d is the secret key
         self.d = None
         # n and e are the public keys
         self.n = None
         self.e = None
-        # p, q and ln are used to create the keys
+        # p, q and ln are used to create the keys and are unneeden afterwards.
         self.p = None
         self.q = None
         self.ln = None
 
     def create_key(self, p=None, q=None, e=None):
-
         print() # CLOCKING
         start = time.time() # CLOCKING
 
@@ -208,43 +208,45 @@ class Key:
         print("Vaihe", str(step))
         print(round(end - start, 5))
 
-    # lcm(a, b) = abs(ab) / gcd(a,b)
-    # gcd means greatest common divisor and can be calculated with the euclidean algorithm
     def lcm(self, a, b):
+        """Calculates the least common multiple of a and b."""
+        # lcm(a, b) = abs(ab) / gcd(a,b)
+        # gcd means greatest common divisor and can be calculated with the euclidean algorithm
         gcd = self.euclidean_algorithm(a,b)
         absolute = abs(a * b)
         ln = absolute // gcd
         return ln
 
-    # Euclidean algorithm solves the greatest common divisor gcd
     def euclidean_algorithm(self, a,b):
+        """Euclidean algorithm solves the greatest common divisor gcd."""
         while b != 0:
             t = b
             b = a % b
             a = t
         return a
         
-    # choose e that is coprime with ln. 
-    # This is assured when e is prime and it does not divide ln.
     def choose_e(self, ln):
+        """Finds e that is coprime with ln. 
+        This is assured when e is prime and it does not divide ln."""
         while True:
             e = Prime().random_prime(2, ln)
             if self.ln % e != 0:
                 self.e = e
-                break
-        return e
-
+                return e
+        
     def determine_d(self, e, ln):
+        """Returns the secret key d."""
         d = self.multiplicative_inverse(e, ln)
         return d
 
-    # This is a reduced version of the extended euclidian algorithm.
-    # It is based on the fact that e and ln are coprime (here a and b).
-    def multiplicative_inverse(self, a, b):
+    def multiplicative_inverse(self, e, ln):
+        """Determines secret key d using a reduced version of the extended euclidian algorithm.
+        It is based on the fact that e and ln are coprime. It is therefore sufficient to 
+        solve d from de = 1 (mod ln)"""
         t = 0;     
         newt = 1
-        r = b
-        newr = a
+        r = ln
+        newr = e
 
         while newr != 0:
             quotient = r // newr
@@ -260,20 +262,23 @@ class Key:
         if r > 1:
             print("a ei ole kääntyvä")
         if t < 0:
-            t = t + b
+            t = t + ln
 
         return t
 
-    # Can be used for testing.
-    # Function multiplicative_inverse can be used instead of this.
+
     def extended_euclidian_algorithm(self, a, b):
-        # remainder = r
+        """Extended Euclidian algorithm solves the gdc of a and b as well as the 
+        coefficients x and y of Bezout's identity ax + by = gdc(a,b)."""
+        # Function multiplicative_inverse is used instead of this in key creation.
+        # This method can be used in testing.
+        # r means remainder.
         old_r, r = a, b
         # s and r will be the Bezout's coefficients
         old_s, s = 1, 0
         old_t, t = 0, 1
         while r != 0:
-            # quotient = q
+            # quotient means q
             q = old_r // r
             
             # calculate the remainder of old_r / r
@@ -292,11 +297,12 @@ class Key:
             t = old_t - q * t
             old_t = var
         
-        return {"Bezout coefficients": (old_s, old_t), "greatest common divisor": (old_r), "quotients by the gcd": (t, s)}
+        return {"coefficients": (old_s, old_t), "gcd": (old_r), "quotients": (t, s)}
 
 
 class Prime:
     """This class is used to generate prime numbers for encryption keys"""
+    
     # Used for testing
     first_58_primes = [
             2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,
@@ -326,7 +332,7 @@ class Prime:
 
     def factor_twos(self, n):
         """For the given integer n solves s and d in n := 2^s * d
-        and returns (s, d)."""
+        and returns a tuple (s, d)."""
         s = 0
         while n % 2 == 0:
             if n % 2 == 0:
@@ -352,7 +358,7 @@ class Prime:
             if self.trial_division(n):
                 return n
 
-    def random_prime(self, a=10**200, b=10**201):
+    def random_prime(self, a=10**189, b=10**190):
         """Function returns a random prime number between a and b using Miller-Rabin."""
         while True:
             n = randint(a, b)
@@ -361,7 +367,7 @@ class Prime:
                 return n
 
     def eratosthenes_sieve(self, n):
-        """ Function calculates all primes up to n """
+        """ Function calculates all primes up to n. """
         # The list primes should start from index 2 and end at n. The first two True values are 
         # therefore unneeded, but created to simplify the usage of indeces.
         primes = [True for i in range(n+1)]
