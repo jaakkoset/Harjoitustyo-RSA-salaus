@@ -22,11 +22,11 @@ Komennolla 1 voi luoda automaattisesti satunnaiset salausavaimet. Ohjelma on sä
 
 Komennolla 2 voi määrittää oman salausavaimen. Tällöin täytyy antaa kaksi alkulukua. Luvun e voi halutessaan myös määritellä tai sen voi luoda automaattisesti. Luvun e täytyy täyttää tietyt ominaisuudet, jotka voi katsoa englanninkielisestä Wikipediasta artikkelista RSA (cryptosystem) otsikon Key generation alta (https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Key_generation). Tämä komento on tarkoitettu ohjelman testailuun eikä se tarkista mitenkään annettuja lukuja.
 
-Komennolla 3 voi tulostaa salausavaimen eri osat. Niistä d on salainen avain ja n sekä e julkisia avaimia. p, q ja ln syntyvät avainten luonnin yhteydessä ja ovat turhia jälkeenpäin.
+Komennolla 3 voi tulostaa salausavaimen eri osat. Niistä d on salainen avain ja n sekä e julkisia avaimia. p, q ja ln liittyvät avainten luontiin ja ovat turhia jälkeenpäin.
 
-Komennolla 4 voi salata noin 120 merkkiä pitkiä viestejä. Ohjelma tulostaa tämän jälkeen salatun viestin.
+Komennolla 4 voi salata noin 120 merkkiä pitkiä viestejä. Ohjelma tulostaa tämän jälkeen viestin salattuna.
 
-Komennolla 5 voi purkaa salatun viestin. Salattu viesti pitää kopioida terminaalista ja sitten liittää itse terminaaliin. 
+Komennolla 5 voi purkaa salatun viestin. Salattu viesti pitää itse kopioida terminaalista viestin luonnin jälkeen ja sitten antaa purettavaksi viestiksi.
 
 Komennolla 6 voi tulostaa annetun viestin ja sen muunnoksen kokonaisluvuksi ja salatuksi kokonaisluvuksi.
 
