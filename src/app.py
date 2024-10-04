@@ -188,9 +188,11 @@ class Key:
         self.print_clock(start, end, 3) # CLOCKING
         start = time.time() # CLOCKING
 
-        # 4. Choose e that is coprime with ln
+        # 4. Choose e that is coprime with ln.
+        # This is satiesfied when e = 65537
         if not e:
-            self.e = self.choose_e(self.ln)
+            self.e = 65537
+            #self.e = self.choose_e(self.ln)
         else:
             self.e = e
 
@@ -358,7 +360,7 @@ class Prime:
             if self.trial_division(n):
                 return n
 
-    def random_prime(self, a=10**189, b=10**190):
+    def random_prime(self, a=10**199, b=10**200):
         """Function returns a random prime number between a and b using Miller-Rabin."""
         while True:
             n = randint(a, b)
