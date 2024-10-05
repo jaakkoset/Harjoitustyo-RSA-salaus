@@ -1,5 +1,7 @@
 import unittest
+from src.tests.first_58_primes import first_58_primes
 from src.app import Prime
+
 
 class TestPrime(unittest.TestCase):
     def setUp(self):
@@ -8,7 +10,7 @@ class TestPrime(unittest.TestCase):
     def test_eratosthenes_sieve_up_to_271(self):
         prime = Prime()
         list = prime.eratosthenes_sieve(271)
-        self.assertEqual(list, prime.first_58_primes)
+        self.assertEqual(list, first_58_primes)
 
     def test_factor_twos(self):
         prime = Prime()
