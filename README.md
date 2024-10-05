@@ -16,4 +16,4 @@ Repositorio Aineopintojen harjoitustyölle RSA-salauksesta.
 
 [Viikkoraportti 4](./dokumentaatio/viikkoraportit/viikkoraportti_4.md)
 
-
+[Viikkoraportti 5](./dokumentaatio/viikkoraportit/viikkoraportti_5.md)
