@@ -23,14 +23,22 @@ class Key:
             a = t
         return a
 
-    def multiplicative_inverse(self, e, ln):
-        """Determines secret key d using a reduced version of the extended euclidian algorithm.
+    def multiplicative_inverse(self, e: int, ln: int):
+        """
+        Determines secret key d using a reduced version of the extended euclidian algorithm.
         It is based on the fact that e and ln are coprime, which means that the Bezout identity reduces to
         ax + by = gcd(a,b)
         ax + by = 1
-        ax - 1 = (-y)m
-        ax = 1 (mod m).
+        ax - 1 = (-y)b
+        ax = 1 (mod b).
         Therefore we want to solve d from de = 1 (mod ln).
+
+        Arguments:
+        e: Exponent e
+        ln: The result from Carmichael function
+
+        Returns:
+        d: int - The secret key d
         """
         d = 0
         new_d = 1

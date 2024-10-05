@@ -37,12 +37,12 @@ class TestKey(unittest.TestCase):
         extended_euclidian_algorithm"""
         examples = [
             (
-                4409871243509762459762509187234560872102187465,
-                108176508625087621085612087608721364320198262,
+                4409871243509762459762509187234560872102187465 * 10**2001,
+                108176508625087621085612087608721364320198262 * 10**200,
             ),
             (
                 8217958194584379475987451215660981642576128065219876358021630947109182098214375,
-                9875219145140987324087623598712905876453508612385682658263416205361982659821659821658216360985,
+                9875219145140987324087623598712905876453508612385682658263416205361982659821659821658216360983,
             ),
         ]
         for e in examples:
@@ -77,4 +77,16 @@ class TestKey(unittest.TestCase):
             self.assertEqual(left, right)
 
     def test_multiplicative_inverse(self):
-        pass
+        """Tests the multiplicative_inverse by checking that de - 1 is divisible by ln.
+        This is equivalent to testing that ed mod ln = 1.
+        e and ln must be coprime."""
+        # Use the default value of 65537 for e
+        e = 65537
+        # Find ln > e, that is not divisible by e
+        lns = [e * 10**200 + 1, 98761234598765796143875]
+        for ln in lns:
+            if ln % e == 0:
+                raise ValueError("ln is divisible by e")
+            d = self.key.multiplicative_inverse(e, ln)
+            de = d * e
+            self.assertEqual(de % ln, 1)
