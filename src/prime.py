@@ -10,7 +10,9 @@ class Prime:
         k = 40
         s, d = self.factor_twos(n - 1)
         if s == 0:
-            raise ValueError("n ei saa olla parillinen")
+            # Make sure we don't waste time checking even numbers.
+            # When s = 0 then n-1 is odd, and then n must be even.
+            raise ValueError("Even number given to Miller-Rabin")
         for i in range(k):
             a = randint(2, n - 2)
             x = pow(a, d, n)
@@ -24,12 +26,12 @@ class Prime:
         return True
 
     def factor_twos(self, n):
-        """For the given integer n solves s and d in n := 2^s * d
+        """For the given integer n solves s and d in n = 2^s * d
         and returns a tuple (s, d)."""
         s = 0
         while n % 2 == 0:
-            if n % 2 == 0:
-                s += 1
+            # if n % 2 == 0:
+            s += 1
             n = n // 2
         return s, n
 
@@ -54,8 +56,11 @@ class Prime:
     def random_prime(self, a=10**399, b=10**400):
         """Function returns a random prime number between a and b using Miller-Rabin."""
         while True:
+
             n = randint(a, b)
-            n = 2 * n + 1
+            if n % 2 != 0:
+                n += 1
+
             if self.miller_rabin(n):
                 return n
 
