@@ -32,7 +32,7 @@ class TestKey(unittest.TestCase):
 
     def test_trial_division(self):
         # First we load the first 100 primes
-        primes = self.open_file_trial_division("first_100_primes.csv")
+        primes = self.open_file("first_100_primes.csv")
         # Now primes contains prime numbers 2 - 541. We now want to check that
         # trial_division identifies all primes and rejects all other numbers
         # in range 2 - 541.
@@ -40,13 +40,13 @@ class TestKey(unittest.TestCase):
 
     def test_trial_division2(self):
         # First we load the list of primes
-        primes = self.open_file_trial_division("primes_81001-82000.csv")
+        primes = self.open_file("primes_81001-82000.csv")
         # Now primes contains prime numbers 1034233 - 1048129. We now want to check that
         # trial_division identifies all primes and rejects all other numbers
         # in that range.
         self.check_primes_trial_division(primes)
 
-    def open_file_trial_division(self, file_name: str):
+    def open_file(self, file_name: str):
         with open("src/tests/data/" + file_name) as file:
             for row in file:
                 row = row.replace("\n", "")
@@ -65,3 +65,10 @@ class TestKey(unittest.TestCase):
 
             x = self.prime.trial_division(i)
             self.assertEqual(x, prime)
+
+    def test_erastothenes_sieve(self):
+        # primes is a list of prime numbers 2 - 7919
+        primes = self.open_file("first_1000_primes.csv")
+        primes = [int(prime) for prime in primes]
+        test_primes = self.prime.eratosthenes_sieve(primes[-1] + 1)
+        self.assertEqual(test_primes, primes)

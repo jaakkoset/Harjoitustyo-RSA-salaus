@@ -63,8 +63,12 @@ class Prime:
             if self.miller_rabin(n):
                 return n
 
-    def eratosthenes_sieve(self, n):
-        """Function calculates all primes up to n."""
+    def eratosthenes_sieve(self, n: int) -> list:
+        """Calculates all primes up to n.
+        Arguments:
+        n: the last value we want to check for primality
+        Returns:
+        primes: list of prime numbers between 0 and n"""
         # The list primes should start from index 2 and end at n. The first two True values are
         # therefore unneeded, but created to simplify the usage of indeces.
         primes = [True for i in range(n + 1)]
