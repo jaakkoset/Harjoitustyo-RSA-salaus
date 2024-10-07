@@ -97,6 +97,15 @@ class TestKey(unittest.TestCase):
             x = self.prime.trial_division(i)
             self.assertEqual(x, prime)
 
+    def test_random_prime(self):
+        """Test random_prime by creating random primes and then checking that they
+        exist in a precomputed list. Checks only primes between 1034233 and 1048129"""
+        primes = self.open_file("primes_81001-82000.csv")
+        for _ in range(100):
+            x = self.prime.random_prime(1034233, 1048129)
+            if str(x) not in primes:
+                assert False, "Random prime not in list."
+
     def test_erastothenes_sieve(self):
         # primes is a list of prime numbers 2 - 7919
         primes = self.open_file("first_1000_primes.csv")

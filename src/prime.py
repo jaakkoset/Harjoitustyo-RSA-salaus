@@ -50,19 +50,12 @@ class Prime:
             i += 1
         return True
 
-    def random_prime_trial_division(self, a=10**7, b=10**8):
-        """Function returns a smallish random prime number between a and b using trial division."""
-        while True:
-            n = randint(a, b)
-            if self.trial_division(n):
-                return n
-
     def random_prime(self, a=10**399, b=10**400):
         """Function returns a random prime number between a and b using Miller-Rabin."""
         while True:
 
             n = randint(a, b)
-            if n % 2 != 0:
+            if n % 2 == 0:
                 n += 1
 
             if self.miller_rabin(n):
