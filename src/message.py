@@ -20,6 +20,8 @@ class Message:
         integer = ""
         for character in text:
             a = ord(character)
+            if a > 255:
+                raise ValueError(f"A non-ASCII character used: {character}")
             if a < 100:
                 a = "3" + str(a)
             integer = integer + str(a)

@@ -26,3 +26,15 @@ class TestMessage(unittest.TestCase):
         for e in examples:
             x = self.msg.integer_to_text(e["integer"])
             self.assertEqual(x, e["answer"])
+
+    def test_text_to_integer_to_text(self):
+        """Tests both text_to_integer and integer_to_text by converting a text into an
+        integer and back to text. Tested text is 1337 characters long."""
+        with open("src/tests/data/" + "rsa-text.txt") as file:
+            text = ""
+            for row in file:
+                text += row
+
+        integer = self.msg.text_to_integer(text)
+        new_text = self.msg.integer_to_text(integer)
+        self.assertEqual(text, new_text)
