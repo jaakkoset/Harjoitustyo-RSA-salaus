@@ -15,3 +15,14 @@ class TestMessage(unittest.TestCase):
         for e in examples:
             x = self.msg.text_to_integer(e["text"])
             self.assertEqual(x, e["answer"])
+
+    def test_integer_to_text(self):
+        examples = [
+            {"integer": 397398399120121122229228246, "answer": "abcxyzåäö"},
+            {"integer": 365214, "answer": "AÖ"},
+            {"integer": 349357346333334340341, "answer": '19.!"()'},
+            {"integer": 365214, "answer": "AÖ"},
+        ]
+        for e in examples:
+            x = self.msg.integer_to_text(e["integer"])
+            self.assertEqual(x, e["answer"])
