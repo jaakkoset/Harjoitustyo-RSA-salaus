@@ -29,3 +29,24 @@ class TestKey(unittest.TestCase):
         for e in examples:
             x = self.prime.factor_twos(e["number"])
             self.assertEqual(x, e["factors"])
+
+    def test_trial_division(self):
+        # First we load first 100 primes
+        with open("src/tests/data/first_100_primes.csv") as file:
+            for row in file:
+                row = row.replace("\n", "")
+                row = row.replace(" ", "")
+                primes = row.split(",")
+        # Now primes contains prime numbers 2 - 541. We now want to check that
+        # trial_division identifies all primes and rejects all other numbers
+        # in range 2 - 541.
+        j = 0
+        for i in range(2, int(primes[-1]) + 1):
+            prime = False
+            if int(primes[j]) == i:
+                # i is in primes so it is a prime number
+                prime = True
+                j += 1
+
+            x = self.prime.trial_division(i)
+            self.assertEqual(x, prime)
