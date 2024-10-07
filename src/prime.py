@@ -1,4 +1,5 @@
 from random import randint
+from secrets import randbits
 
 
 class Prime:
@@ -50,11 +51,11 @@ class Prime:
             i += 1
         return True
 
-    def random_prime(self, a=10**399, b=10**400):
+    def random_prime(self, bits: int = 1024):
         """Function returns a random prime number between a and b using Miller-Rabin."""
         while True:
 
-            n = randint(a, b)
+            n = randbits(bits)
             if n % 2 == 0:
                 n += 1
 

@@ -98,12 +98,11 @@ class TestKey(unittest.TestCase):
             self.assertEqual(x, prime)
 
     def test_random_prime(self):
-        """Test random_prime by creating random primes and then checking that they
-        exist in a precomputed list. Checks only primes between 1034233 and 1048129"""
-        primes = self.open_file("primes_81001-82000.csv")
-        for _ in range(100):
-            x = self.prime.random_prime(1034233, 1048129)
-            self.assertIn(str(x), primes)
+        """Test random_prime by comparing the results with trial_division."""
+        for _ in range(50):
+            x = self.prime.random_prime(30)
+            y = self.prime.trial_division(x)
+            self.assertTrue(y, f"random_prime generated a non prime number {x}")
 
     def test_erastothenes_sieve(self):
         # primes is a list of prime numbers 2 - 7919

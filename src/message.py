@@ -9,12 +9,12 @@ class Message:
         """Decrypts a ciphered message using keys d and n."""
         return pow(cipher, d, n)
 
-    def text_to_integer(self, text):
-        """Turns text into an integer."""
-        # Finds the ASCII-value for each character and concatenates the values.
-        # If ASCII-value is less that 100, a 3 is added on the left side of the number
-        # so that all characters get a value three digits long. Largest ASCII-value is
-        # 255, so this creates no problems.
+    def text_to_integer(self, text: str):
+        """Turns text into an integer.
+        Finds the ASCII-value for each character and concatenates the values.
+        If ASCII-value is less that 100, a 3 is added on the left side of the
+        number so that all characters get a value three digits long. Largest
+        ASCII-value is 255, so this creates no problems."""
         integer = ""
         for character in text:
             a = ord(character)
@@ -25,7 +25,7 @@ class Message:
             integer = integer + str(a)
         return int(integer)
 
-    def integer_to_text(self, integer):
+    def integer_to_text(self, integer: int):
         """Turns integers back to text."""
         text = ""
         integer = str(integer)
