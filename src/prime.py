@@ -4,15 +4,20 @@ from random import randint
 class Prime:
     """This class is used to generate prime numbers for encryption keys"""
 
-    def miller_rabin(self, n) -> bool:
+    def miller_rabin(self, n: int) -> bool:
         """Function returns true when number is probably prime and false otherwise.
-        Uses the Miller-Rabin algorithm"""
+        Uses the Miller-Rabin algorithm.
+        Arguments:
+        n: an integer >= 4
+        Returns:
+        True when n is probably prime and False always when it is not prime"""
         k = 40
         s, d = self.factor_twos(n - 1)
         if s == 0:
+            return False
             # Make sure we don't waste time checking even numbers.
             # When s = 0 then n-1 is odd, and then n must be even.
-            raise ValueError("Even number given to Miller-Rabin")
+            # raise ValueError("Even number given to Miller-Rabin")
         for i in range(k):
             a = randint(2, n - 2)
             x = pow(a, d, n)
