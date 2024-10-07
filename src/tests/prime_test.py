@@ -103,8 +103,7 @@ class TestKey(unittest.TestCase):
         primes = self.open_file("primes_81001-82000.csv")
         for _ in range(100):
             x = self.prime.random_prime(1034233, 1048129)
-            if str(x) not in primes:
-                assert False, "Random prime not in list."
+            self.assertIn(str(x), primes)
 
     def test_erastothenes_sieve(self):
         # primes is a list of prime numbers 2 - 7919

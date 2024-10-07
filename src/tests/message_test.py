@@ -6,6 +6,20 @@ class TestMessage(unittest.TestCase):
     def setUp(self):
         self.msg = Message()
 
+    def test_encrypt(self):
+        # Example values from Wikipedia:
+        # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
+        example = {"plain_text": 65, "e": 17, "n": 3233, "cipher": 2790}
+        x = self.msg.encrypt(example["plain_text"], example["e"], example["n"])
+        self.assertEqual(x, example["cipher"])
+
+    def test_decrypt(self):
+        # Example values from Wikipedia:
+        # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
+        example = {"chiper": 2790, "d": 413, "n": 3233, "plain_text": 65}
+        x = self.msg.decrypt(example["chiper"], example["d"], example["n"])
+        self.assertEqual(x, example["plain_text"])
+
     def test_text_to_integer(self):
         examples = [
             {"text": "abcxyzåäö", "answer": 397398399120121122229228246},

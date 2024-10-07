@@ -1,15 +1,13 @@
 class Message:
     """This class has methods to encrypt and decrypt messages"""
 
-    def encrypt(self, message: str, e: int, n: int):
-        """Encrypts message using keys e and n."""
-        integer = self.text_to_integer(message)
-        return pow(int(integer), e, n)
+    def encrypt(self, message: int, e: int, n: int):
+        """Encrypts a message using keys e and n."""
+        return pow(message, e, n)
 
-    def decrypt(self, cypher: int, d: int, n: int):
-        """Decrypts a cyphered message using keys d and n."""
-        m = pow(cypher, d, n)
-        return self.integer_to_text(m)
+    def decrypt(self, cipher: int, d: int, n: int):
+        """Decrypts a ciphered message using keys d and n."""
+        return pow(cipher, d, n)
 
     def text_to_integer(self, text):
         """Turns text into an integer."""
