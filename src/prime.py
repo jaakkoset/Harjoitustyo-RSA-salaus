@@ -11,7 +11,7 @@ class Prime:
         n: an integer >= 4
         Returns:
         True when n is probably prime and False always when it is not prime"""
-        k = 40
+        k = 20
         s, d = self.factor_twos(n - 1)
         if s == 0:
             return False

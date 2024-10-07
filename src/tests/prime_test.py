@@ -22,6 +22,13 @@ class TestKey(unittest.TestCase):
             x = self.prime.miller_rabin(i)
             self.assertEqual(x, prime)
 
+    def test_miller_rabin_mersenne_primes(self):
+        """Test Miller-Rabin using three large Mersenne primes."""
+        mersenne_primes = (2**607 - 1, 2**1279 - 1, 2**2203 - 1)
+        for prime in mersenne_primes:
+            x = self.prime.miller_rabin(prime)
+            self.assertEqual(x, True)
+
     def test_factor_twos(self):
         """factor_twos returns s and d in n = 2^s * d,
         when given an argument n. In operation n is always even."""
