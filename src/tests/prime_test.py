@@ -31,17 +31,32 @@ class TestKey(unittest.TestCase):
             self.assertEqual(x, e["factors"])
 
     def test_trial_division(self):
-        # First we load first 100 primes
-        with open("src/tests/data/first_100_primes.csv") as file:
+        # First we load the first 100 primes
+        primes = self.open_file_trial_division("first_100_primes.csv")
+        # Now primes contains prime numbers 2 - 541. We now want to check that
+        # trial_division identifies all primes and rejects all other numbers
+        # in range 2 - 541.
+        self.check_primes_trial_division(primes)
+
+    def test_trial_division2(self):
+        # First we load the list of primes
+        primes = self.open_file_trial_division("primes_81001-82000.csv")
+        # Now primes contains prime numbers 1034233 - 1048129. We now want to check that
+        # trial_division identifies all primes and rejects all other numbers
+        # in that range.
+        self.check_primes_trial_division(primes)
+
+    def open_file_trial_division(self, file_name: str):
+        with open("src/tests/data/" + file_name) as file:
             for row in file:
                 row = row.replace("\n", "")
                 row = row.replace(" ", "")
                 primes = row.split(",")
-        # Now primes contains prime numbers 2 - 541. We now want to check that
-        # trial_division identifies all primes and rejects all other numbers
-        # in range 2 - 541.
+        return primes
+
+    def check_primes_trial_division(self, primes: list):
         j = 0
-        for i in range(2, int(primes[-1]) + 1):
+        for i in range(int(primes[0]), int(primes[-1]) + 1):
             prime = False
             if int(primes[j]) == i:
                 # i is in primes so it is a prime number
