@@ -30,7 +30,6 @@ class Prime:
         and returns a tuple (s, d)."""
         s = 0
         while n % 2 == 0:
-            # if n % 2 == 0:
             s += 1
             n = n // 2
         return s, n

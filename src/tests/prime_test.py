@@ -10,8 +10,11 @@ class TestKey(unittest.TestCase):
         """factor_twos returns s and d in n = 2^s * d,
         when given an argument n. In operation n is always even."""
         examples = [
-            {"number": (2**22 * 181447), "factors": (22, 181447)},
-            {"number": (761043877888), "factors": (22, 181447)},
+            # Small even number
+            {"number": (2**3 * 3), "factors": (3, 3)},
+            {"number": (24), "factors": (3, 3)},
+            # Small odd number
+            {"number": (2**3 * 3 + 1), "factors": (0, 25)},
             # Large even number
             {
                 "number": (2**401 * 1971598874681685108651803),
