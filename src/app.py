@@ -1,8 +1,5 @@
 from key import Key
-from prime import Prime
 from message import Message
-from random import randint
-import time
 
 
 class Program:
@@ -36,6 +33,7 @@ class Program:
                 self.keys = self.key.create_key(1024)
 
             elif cmd == "2":
+                continue
                 p = int(input("1. alkuluku: "))
                 q = int(input("2. alkuluku: "))
                 print("Luo e satunnaisesti painamalla enter. Muuten kirjoita luku.")
@@ -45,6 +43,7 @@ class Program:
                 self.print_key_info()
 
             elif cmd == "4":
+                continue
                 if self.no_key():
                     continue
                 print("Kirjoita salattava viesti")
@@ -55,6 +54,7 @@ class Program:
                 print(self.message["encrypted"])
 
             elif cmd == "5":
+                continue
                 if self.no_key():
                     continue
                 print("Anna purettava viesti")
@@ -69,37 +69,46 @@ class Program:
                     print("Salatut viestit ovat kokonaislukuja.")
 
             elif cmd == "6":
-                print()
-                print("Teksti")
-                print(self.message.plain_text)
-                print()
-                print("Salaamaton kokonaisluku")
-                print(self.message.integer)
-                print()
-                print("Salattu kokonaisluku")
-                print(self.message.encrypted)
+                self.print_messages()
 
             elif cmd == "q":
                 break
 
     def print_key_info(self):
         print()
-        print("d.  Pituus ", len(str(self.key.d)))
-        print(self.key.d)
-        print("n.  Pituus ", len(str(self.key.n)))
-        print(self.key.n)
-        print("e.  Pituus ", len(str(self.key.e)))
-        print(self.key.e)
-        print("p.  Pituus ", len(str(self.key.p)))
-        print(self.key.p)
-        print("q.  Pituus ", len(str(self.key.q)))
-        print(self.key.q)
-        print("ln. Pituus", len(str(self.key.ln)))
-        print(self.key.ln)
+        if not self.keys["d"]:
+            print("Avainta ei ole määritelty")
+        else:
+            print("d.  Pituus ", len(str(self.keys["d"])))
+            print(self.keys["d"])
+            print("n.  Pituus ", len(str(self.keys["n"])))
+            print(self.keys["n"])
+            print("e.  Pituus ", len(str(self.keys["e"])))
+            print(self.keys["e"])
+            print("p.  Pituus ", len(str(self.keys["p"])))
+            print(self.keys["p"])
+            print("q.  Pituus ", len(str(self.keys["q"])))
+            print(self.keys["q"])
+            print("ln. Pituus ", len(str(self.keys["ln"])))
+            print(self.keys["ln"])
+
+    def print_messages(self):
+        print()
+        if not self.message["text"]:
+            print("Viestiä ei ole määritelty")
+        else:
+            print("Teksti")
+            print(self.message["text"])
+            print()
+            print("Salaamaton kokonaisluku")
+            print(self.message["integer"])
+            print()
+            print("Salattu kokonaisluku")
+            print(self.message["encrypted"])
 
     def no_key(self) -> bool:
         """Checks that no keys exist."""
-        if not self.key.d:
+        if not self.keys["p"]:
             print()
             print("Avainta ei ole luotu.")
             return True
