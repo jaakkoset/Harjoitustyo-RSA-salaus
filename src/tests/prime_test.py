@@ -105,7 +105,9 @@ class TestKey(unittest.TestCase):
             self.assertTrue(y, f"random_prime generated a non prime number {x}")
 
     def test_erastothenes_sieve(self):
-        # primes is a list of prime numbers 2 - 7919
+        """Test erastothenes_sieve by calculating primes up to 7919 and
+        comparing the result with a predetermined list"""
+        # primes is a list of prime numbers between 2 - 7919
         primes = self.open_file("first_1000_primes.csv")
         primes = [int(prime) for prime in primes]
         test_primes = self.prime.eratosthenes_sieve(primes[-1] + 1)
