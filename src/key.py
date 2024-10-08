@@ -1,10 +1,36 @@
+from src.prime import Prime
+
+
 class Key:
     """This class is used to create encryption keys"""
 
-    def identify():
-        l = ["", "Moduuli key.py", "Luokka Key", "Metodi identify", ""]
-        for i in l:
-            print(i)
+    def __init__(self) -> None:
+        self.prime = Prime()
+
+    def create_key(self, bits: int) -> dict:
+
+        # 1. Choose two primes p and q
+        p = self.prime.random_prime(bits)
+        q = self.prime.random_prime(bits)
+        # 2. Calculate n = pq
+        n = p * q
+
+        # 3. Calculate lambda(n) := ln using Charmichael function.
+        # Since p and q are primes the problem reduces to ln = lcm(p-1, q-1),
+        # where lcm means least common multiple.
+        ln = self.lcm(p - 1, q - 1)
+
+        # 4. Choose e that is coprime with ln.
+        # We will use default value e = 65537
+        e = 65537
+        if ln % e == 0:
+            # There is a very small chance that ln is divisble by e.
+            raise RuntimeError("When creating keys, lambda(n) was divisible by e")
+
+        # 5. determine d, the modular multiplicative inverse of e mod lambda(n)
+        d = self.multiplicative_inverse(e, ln)
+
+        return {"p": p, "q": q, "n": n, "e": e, "ln": ln, "d": d}
 
     def lcm(self, a, b):
         """Calculates the least common multiple of a and b."""
