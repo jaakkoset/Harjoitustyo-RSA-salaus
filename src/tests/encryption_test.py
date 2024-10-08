@@ -1,12 +1,14 @@
 import unittest
 from message import Message
 from key import Key
+from generator import Generator
 
 
 class TestMessage(unittest.TestCase):
     def setUp(self):
         self.msg = Message()
-        self.key = Key()
+        # self.key = Key()
+        self.generator = Generator()
 
     def test_encrypt_decrypt_encrypt_1024(self):
         """Tests encryption with a 1024 bit key. The length of the encrypted text is the
@@ -24,7 +26,7 @@ class TestMessage(unittest.TestCase):
             text = ""
             for row in file:
                 text += row
-        key = self.key.create_key(bits)
+        key = self.generator.create_key(bits)
         integer = self.msg.text_to_integer(text)
         encrypted = self.msg.encrypt(integer, key["e"], key["n"])
         decrypted = self.msg.decrypt(encrypted, key["d"], key["n"])

@@ -1,11 +1,15 @@
 from key import Key
+from prime import Prime
 from message import Message
+from generator import Generator
 
 
 class Program:
     def __init__(self):
-        self.key = Key()
+        # self.key = Key()
         self.message = Message()
+        # self.prime = Prime()
+        self.generator = Generator()
 
         # n and e are the public keys and d is the secret key.
         # p, q and ln are used to create the keys and are unneeded afterwards.
@@ -30,17 +34,13 @@ class Program:
             cmd = input("Anna komento: ")
 
             if cmd == "1":
-                self.keys = self.key.create_key(1024)
+                self.keys = self.generator.create_key(1024)
 
             elif cmd == "2":
-                continue
-                p = int(input("1. alkuluku: "))
-                q = int(input("2. alkuluku: "))
-                print("Luo e satunnaisesti painamalla enter. Muuten kirjoita luku.")
-                e = input("e: ")
+                self.cmd2_own_key()
 
             elif cmd == "3":
-                self.print_key_info()
+                self.cmd3_key_info()
 
             elif cmd == "4":
                 continue
@@ -69,12 +69,27 @@ class Program:
                     print("Salatut viestit ovat kokonaislukuja.")
 
             elif cmd == "6":
-                self.print_messages()
+                self.cmd6_messages()
 
             elif cmd == "q":
                 break
 
-    def print_key_info(self):
+    def cmd2_own_key(self):
+        print("Anna 1. alkuluku: ")
+        p = input()
+        print("Anna 2. alkuluku: ")
+        q = input()
+        print("Anna eksponentti e tai käytä oletusarvoa 65537 painamalla enter:")
+        e = input()
+        print()
+        x = self.generator.create_own_key(p, q, e)
+        if not x:
+            print("Avaimen luonti epäonnistui")
+        else:
+            self.keys = x
+            print("Avain luotu.")
+
+    def cmd3_key_info(self):
         print()
         if not self.keys["d"]:
             print("Avainta ei ole määritelty")
@@ -92,7 +107,7 @@ class Program:
             print("ln. Pituus ", len(str(self.keys["ln"])))
             print(self.keys["ln"])
 
-    def print_messages(self):
+    def cmd6_messages(self):
         print()
         if not self.message["text"]:
             print("Viestiä ei ole määritelty")
