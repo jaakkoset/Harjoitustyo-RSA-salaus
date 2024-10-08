@@ -78,8 +78,9 @@ class TestKey(unittest.TestCase):
         return primes
 
     def check_primes_trial_division(self, primes: list):
-        """Check the trial_division algorithm. Compares a list of
-        predetermined prime numbers to the answers given by the algorithm.
+        """Helper function for the trial_division tests. Compares a list of
+        predetermined prime numbers to the answers given by the trial by
+        division algorithm.
         Arguments:
         primes: a list of primes that is known to be correct
         trial_division: set True if trial division is tested and False if Miller Rabin

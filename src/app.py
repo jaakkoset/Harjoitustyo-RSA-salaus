@@ -140,7 +140,7 @@ class Program:
     def cmd6_messages(self):
         print()
         if not self.message["text"]:
-            print("Viestiä ei ole määritelty")
+            print("Viestiä ei ole luotu")
         else:
             print("Teksti")
             print(self.message["text"])
