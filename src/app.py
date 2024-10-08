@@ -7,7 +7,7 @@ from generator import Generator
 class Program:
     def __init__(self):
         # self.key = Key()
-        self.message = Message()
+        self.encryption = Message()
         # self.prime = Prime()
         self.generator = Generator()
 
@@ -16,6 +16,8 @@ class Program:
         self.keys = {"p": None, "q": None, "n": None, "e": None, "ln": None, "d": None}
 
         self.message = {"text": None, "integer": None, "encrypted": None}
+        # Maximum length for messages
+        self.max_len = 0
 
         self.program()
 
@@ -34,7 +36,7 @@ class Program:
             cmd = input("Anna komento: ")
 
             if cmd == "1":
-                self.keys = self.generator.create_key(1024)
+                self.cmd1_random_key()
 
             elif cmd == "2":
                 self.cmd2_own_key()
@@ -43,36 +45,24 @@ class Program:
                 self.cmd3_key_info()
 
             elif cmd == "4":
-                continue
                 if self.no_key():
                     continue
-                print("Kirjoita salattava viesti")
-                m = str(input())
-                self.message.encrypt(m, self.key.e, self.key.n)
-                print()
-                print("Viesti salattuna")
-                print(self.message["encrypted"])
+                self.cmd4_encrypt()
 
             elif cmd == "5":
-                continue
                 if self.no_key():
                     continue
-                print("Anna purettava viesti")
-                c = input()
-                print()
-                try:
-                    c = int(c)
-                    m = self.message.decrypt(c, self.key.d, self.key.n)
-                    print("Purettu viesti")
-                    print(m)
-                except:
-                    print("Salatut viestit ovat kokonaislukuja.")
+                self.cmd5_decrypt()
 
             elif cmd == "6":
                 self.cmd6_messages()
 
             elif cmd == "q":
                 break
+
+    def cmd1_random_key(self):
+        self.keys = self.generator.create_key(1024)
+        self.set_max_len()
 
     def cmd2_own_key(self):
         print("Anna 1. alkuluku: ")
@@ -87,6 +77,7 @@ class Program:
             print("Avaimen luonti epäonnistui")
         else:
             self.keys = x
+            self.set_max_len()
             print("Avain luotu.")
 
     def cmd3_key_info(self):
@@ -106,6 +97,45 @@ class Program:
             print(self.keys["q"])
             print("ln. Pituus ", len(str(self.keys["ln"])))
             print(self.keys["ln"])
+
+    def cmd4_encrypt(self):
+        print("Kirjoita salattava viesti")
+        check = True
+        message = str(input())
+        integer = self.encryption.text_to_integer(message)
+        if integer // 3 < self.max_len:
+            print(
+                f"Viesti on liian pitkä \nPituus on {len(str(integer))}",
+                f"\nSuurin sallittu pituus on {self.max_len}",
+            )
+            check = False
+        if check:
+            encrypted = self.encryption.encrypt(integer, self.keys["e"], self.keys["n"])
+            self.message["text"] = message
+            self.message["integer"] = integer
+            self.message["encrypted"] = encrypted
+            print()
+            print("Viesti salattuna")
+            print(self.message["encrypted"])
+        else:
+            print("Viestin salaus epäonnistui")
+
+    def cmd5_decrypt(self):
+        print("Anna purettava viesti")
+        cipher = input()
+        print()
+        check = True
+        try:
+            cipher = int(cipher)
+        except:
+            print("Salatut viestit ovat kokonaislukuja.")
+            check = False
+
+        if check:
+            message = self.encryption.decrypt(cipher, self.keys["d"], self.keys["n"])
+            message = self.encryption.integer_to_text(message)
+            print("Purettu viesti")
+            print(message)
 
     def cmd6_messages(self):
         print()
@@ -128,6 +158,9 @@ class Program:
             print("Avainta ei ole luotu.")
             return True
         return False
+
+    def set_max_len(self):
+        self.max_len = len(str(self.keys["n"])) // 3
 
 
 if __name__ == "__main__":
