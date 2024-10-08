@@ -1,7 +1,6 @@
 import unittest
-from src.message import Message
-from src.key import Key
-from secrets import randbits
+from message import Message
+from key import Key
 
 
 class TestMessage(unittest.TestCase):

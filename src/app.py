@@ -1,3 +1,6 @@
+from key import Key
+from prime import Prime
+from message import Message
 from random import randint
 import time
 

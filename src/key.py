@@ -1,4 +1,4 @@
-from src.prime import Prime
+from prime import Prime
 
 
 class Key:

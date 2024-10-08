@@ -1,5 +1,5 @@
 import unittest
-from src.key import Key
+from key import Key
 
 
 class TestKey(unittest.TestCase):

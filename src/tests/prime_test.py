@@ -1,5 +1,5 @@
 import unittest
-from src.prime import Prime
+from prime import Prime
 
 
 class TestKey(unittest.TestCase):
