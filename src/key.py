@@ -21,7 +21,7 @@ class Key:
         ln = self.lcm(p - 1, q - 1)
 
         # 4. Choose e that is coprime with ln.
-        # We will use default value e = 65537
+        # We will use the default value of e = 65537.
         e = 65537
         if ln % e == 0:
             # There is a very small chance that ln is divisble by e.

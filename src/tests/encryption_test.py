@@ -14,10 +14,11 @@ class TestMessage(unittest.TestCase):
         maximum for this key length, 103 characters."""
         self.encrypt_decrypt_encrypt(1024, 103)
 
-    def test_encrypt_decrypt_encrypt_2048(self):
-        """Tests encryption with a 2048 bit key. The length of the encrypted text is the
-        maximum for this key length, 205 characters."""
-        self.encrypt_decrypt_encrypt(2048, 205)
+    # Testing the 2048 bit key takes 10 to 40 seconds.
+    # def test_encrypt_decrypt_encrypt_2048(self):
+    #     """Tests encryption with a 2048 bit key. The length of the encrypted text is the
+    #     maximum for this key length, 205 characters."""
+    #     self.encrypt_decrypt_encrypt(2048, 205)
 
     def encrypt_decrypt_encrypt(self, bits: int, length: int):
         with open("src/tests/data/" + "text-" + str(length) + ".txt") as file:

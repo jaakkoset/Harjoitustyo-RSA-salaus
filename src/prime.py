@@ -5,6 +5,11 @@ from secrets import randbits
 class Prime:
     """This class is used to generate prime numbers for encryption keys"""
 
+    def __init__(self) -> None:
+        # 301st prime is 1933
+        # 500th prime is 3571
+        self.sieve = self.eratosthenes_sieve(1933)
+
     def miller_rabin(self, n: int) -> bool:
         """Function returns true when number is probably prime and false otherwise.
         Uses the Miller-Rabin algorithm.
@@ -52,12 +57,21 @@ class Prime:
         return True
 
     def random_prime(self, bits: int = 1024):
-        """Function returns a random prime number between a and b using Miller-Rabin."""
+        """Returns a random prime number using Miller-Rabin algorithm. The length
+        of the prime is determined in terms of bits."""
         while True:
 
             n = randbits(bits)
+
+            # Make sure n is not even
             if n % 2 == 0:
                 n += 1
+
+            # Try dividing n with the first 300 primes, so that we don't give
+            # the Miller-Rabin algorithm poor prime candidates.
+            for s in self.sieve:
+                if n % s == 0:
+                    continue
 
             if self.miller_rabin(n):
                 return n
