@@ -1,13 +1,11 @@
 import unittest
 from message import Message
-from key import Key
 from generator import Generator
 
 
 class TestMessage(unittest.TestCase):
     def setUp(self):
         self.msg = Message()
-        # self.key = Key()
         self.generator = Generator()
 
     def test_encrypt_decrypt_encrypt_1024(self):

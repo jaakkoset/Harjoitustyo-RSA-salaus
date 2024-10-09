@@ -4,7 +4,7 @@ from time import time
 
 
 class Generator:
-    """This class has functions for generating encryption keys"""
+    """This class is for generating encryption keys"""
 
     def __init__(self) -> None:
         self.prime = Prime()
