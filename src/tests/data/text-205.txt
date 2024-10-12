@@ -1,1 +1,1 @@
-"This text has a length of 205 characters, which is the maximum length that a 2048 bit key can cipher, when each character is assigned a three digit ASCII-value. A 2048 bit key has a length of 617 digits."
+"This text has a length of 205 characters, which is the maximum length that a 2048 bit key can cipher, when each character is assigned a three digit ASCII-value. A 2048 bit key has a length of 617 digits"
