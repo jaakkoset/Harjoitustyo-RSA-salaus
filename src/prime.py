@@ -56,16 +56,18 @@ class Prime:
             i += 1
         return True
 
-    def random_prime(self, bits: int = 1024):
+    def random_prime(self, bits: int):
         """Returns a random prime number using Miller-Rabin algorithm. The length
         of the prime is determined in terms of bits."""
         while True:
 
-            n = randbits(bits)
-
-            # Make sure n is not even
-            if n % 2 == 0:
-                n += 1
+            # Make sure n has the number of bits as the argument bits
+            n = 0
+            while n < 2 ** (bits - 1):
+                n = randbits(bits)
+                # Make sure n is not even
+                if n % 2 == 0:
+                    n += 1
 
             # Try dividing n with the first 300 primes, so that we don't give
             # the Miller-Rabin algorithm poor prime candidates.

@@ -126,10 +126,10 @@ class Program:
         check = True
         if len(str(integer)) // 3 > self.max_len:
             print(
-                f"\nViesti on liian pitkä ",
+                f"\nViesti on liian pitkä. Pituus on {len(message)}.",
                 f"\nPituus kokonaisluvuksi muutettuna on {len(str(integer))}",
-                f"\nSuurin sallittu pituus on avaimen n numeroiden lukumäärä",
-                f"jaettuna kolmella: {self.max_len}",
+                f"\nSuurin sallittu pituus on: (avaimen n numeroiden lukumäärä)",
+                f"// 3 - 1: {self.max_len}",
             )
             check = False
         if check:
@@ -186,7 +186,8 @@ class Program:
         return False
 
     def set_max_len(self):
-        self.max_len = len(str(self.keys["n"])) // 3
+        # I do not know why the minus 1 is needed.
+        self.max_len = len(str(self.keys["n"])) // 3 - 1
 
 
 if __name__ == "__main__":

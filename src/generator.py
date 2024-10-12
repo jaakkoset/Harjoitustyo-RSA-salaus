@@ -4,32 +4,46 @@ from time import time
 
 
 class Generator:
-    """This class is for generating encryption keys"""
+    """
+    This class has two methods for generating encryption keys. Method create_key
+    generates an ecryption key with random values and method create_own_key allows the
+    user to create an enryption key with prime numbers and an exponent e of their own
+    choice.
+    """
 
     def __init__(self) -> None:
         self.prime = Prime()
         self.key = Key()
 
     def create_key(self, bits: int) -> dict:
-        """Creates an encryption key with random values. The length of the
-        key in bits is determined by the argument bits.
+        """
+        Creates an encryption key with random values. The length of the key in bits is
+        determined by the argument bits.
+
         Arguments:
         bits: length of the key in bits
+
         Returns:
         A dictionary containing all parts of the encryption keys"""
-        # 1. Choose two primes p and q
+        # The while-loop makes sure the enryption key length (length of n) is at least
+        # the number of bits as the argument bits asks for.
+        n = 0
+        i = 0
         start = time()
-        p = self.prime.random_prime(bits)
-        q = self.prime.random_prime(bits)
+        while n < 2 ** (bits - 1):
+            i += 1
+            # 1. Choose two primes p and q
+            # If key length is bits, then p and q should have a length of about bits // 2
+            p = self.prime.random_prime(bits // 2)
+            q = self.prime.random_prime(bits // 2)
+
+            # 2. Calculate n = pq
+            n = p * q
+
         end = time()
         print()
-        print("vaihe 1", round(end - start, 5))
-
-        # 2. Calculate n = pq
-        start = time()
-        n = p * q
-        end = time()
-        print("vaihe 2", round(end - start, 5))
+        print("vaiheet 1-2", round(end - start, 5))
+        print("Kierroksia", i)
 
         # 3. Calculate lambda(n) := ln using Charmichael function.
         # Since p and q are primes the problem reduces to ln = lcm(p-1, q-1),
@@ -68,6 +82,8 @@ class Generator:
         if any arguments are invalid"""
         check = True
         # Check p, q and e
+        if e == "":
+            e = 65537
         try:
             p = int(p)
             q = int(q)
@@ -77,7 +93,7 @@ class Generator:
             check = False
 
         if check:
-            if not self.check_pqe(p, q, e):
+            if not self.check_pq(p, q):
                 check = False
 
             if check:
@@ -99,7 +115,7 @@ class Generator:
             return None
         return {"p": p, "q": q, "n": n, "e": e, "ln": ln, "d": d}
 
-    def check_pqe(self, p, q, e) -> bool:
+    def check_pq(self, p, q) -> bool:
         check = True
         if p < 4:
             print("p ei voi olla pienempi kuin 4")
@@ -125,7 +141,7 @@ class Generator:
         x = self.key.euclidean_algorithm(e, ln)
         if x != 1:
             print(
-                f"\ne ja ln eivät ole keskenään jaottomat:",
+                f"e ja ln eivät ole keskenään jaottomat:",
                 f"\ngcd(e, ln) = {x} \ne = {e} \nln = {ln} \n",
             )
             check = False
