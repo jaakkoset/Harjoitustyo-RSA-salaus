@@ -120,21 +120,23 @@ class Program:
         A tuple (message, integer, cipher) when encryption is successful,
         and a tuple (None, None, None) if encryption fails.
         """
+        check = True
         print("Kirjoita salattava viesti")
         message = input()
-        integer = self.encryption.text_to_integer(message)
-        check = True
-        if len(str(integer)) // 3 > self.max_len:
+        if len(message) > self.max_len:
             print(
                 f"\nViesti on liian pitkä. Pituus on {len(message)}.",
-                f"\nPituus kokonaisluvuksi muutettuna on {len(str(integer))}",
-                f"\nSuurin sallittu pituus on: (avaimen n numeroiden lukumäärä)",
-                f"// 3 - 1: {self.max_len}",
+                f"\nSuurin sallittu pituus on: ",
+                f"\n(avaimen n pituus bitteinä) // 8 = {self.max_len}",
             )
             check = False
         if check:
+            integer = self.encryption.text_to_integer(message)
+
+        if check:
             cipher = self.encryption.encrypt(integer, self.keys["e"], self.keys["n"])
             return message, integer, cipher
+
         return None, None, None
 
     def cmd5_decrypt(self):
@@ -187,8 +189,13 @@ class Program:
         return False
 
     def set_max_len(self):
-        # I do not know why the minus 1 is needed.
-        self.max_len = len(str(self.keys["n"])) // 3 - 1
+        """Sets the maximum possible message length with the current key. Maximum
+        message length is the lenght of the key n in bits divided by 8."""
+        binary = bin(self.keys["n"])
+        length = len(str(binary))
+        # Binary representation has 0b written in the beginning. That is why
+        # we must subtract 2 from the length.
+        self.max_len = (length - 2) // 8
 
 
 if __name__ == "__main__":
