@@ -1,6 +1,3 @@
-import base64
-
-
 class Message:
     """This class has methods to encrypt and decrypt messages"""
 
@@ -13,28 +10,57 @@ class Message:
         return pow(cipher, d, n)
 
     def text_to_integer(self, text: str):
-        """Turns text into an integer using UTF-8 encoding.
-        UTF-8 is roughly speaking the same as extended ASCII"""
-        # Turn the text into a bytes-like object and define the encoding as UTF-8.
-        text = bytes(text, "utf-8")
-        # Give each character its hexadecimal UTF-8 value and concatenate them into one
-        # integer.
-        base16_text = base64.b16encode(text)
-        # Turn the hexadecimal integer into a decimal number
-        base16_text = int(base16_text, 16)
-        return base16_text
+        """Turns text into an integer using Unicode code points up to the value
+        of 255. This means UTF-8 (or extended ASCII) characters can be encoded."""
+        if text == "":
+            raise ValueError("An empty string cannot be turned into an integer")
+        hexadecimal = "0x"
+        for character in text:
+            # Find the Unicode code point
+            value = ord(character)
+            if value > 255:
+                raise ValueError("A non UTF-8 character found")
+            # turn the value into a hexadecimal
+            value = hex(value)
+            # remove the 0x in the beginning of the hexadecimal
+            value = str(value)[2:]
+            # hexadecimals must have two digits
+            if len(value) < 2:
+                value = "0" + value
+            if len(value) > 2:
+                print("hexadecimal value:")
+                print(value)
+                raise ValueError("Too large hexadecimal value")
+
+            hexadecimal += value
+
+        # turn the hexadecimal into a decimal integer
+        integer = int(hexadecimal, 16)
+        return integer
 
     def integer_to_text(self, integer: int):
         """Turns integers back to text."""
-        # Turn the integer into a hexadecimal
-        base16 = hex(integer)
-        # Turn it into a string
-        base16 = str(base16)
-        # Hexadecimals have 0x in the beginning, so we remove that.
-        base16 = base16[2:]
-        # Decode the hexadecimal into UTF-8 characters. This returns a byte-like
-        # object.
-        text = base64.b16decode(base16, casefold=True)
-        # Turn the answer into string
-        text = str(text, "utf-8")
+        hexadecimal = hex(integer)
+        # remove the 0x in the beginning of the hexadecimal
+        hexadecimal = str(hexadecimal)[2:]
+        text = ""
+        # One character has a Unicode code point of two hexadecimal digits, so we
+        # look two digits at a time.
+        for i in range(0, len(hexadecimal), 2):
+            if i + 1 > len(hexadecimal) - 1:
+                raise ValueError(
+                    "Index error in integer_to_text.",
+                    "i:",
+                    i,
+                    "len(hexadecimal):",
+                    len(hexadecimal),
+                )
+            value = hexadecimal[i] + hexadecimal[i + 1]
+            # turn the hexadecimal into a decimal
+            value = int(value, 16)
+            if value > 255:
+                raise ValueError("Non UTF-8 character in integer to text conversion")
+            character = chr(value)
+            text += character
+
         return text

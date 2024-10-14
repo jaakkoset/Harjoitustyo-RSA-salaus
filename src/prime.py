@@ -91,7 +91,7 @@ class Prime:
         primes: list of prime numbers between 0 and n"""
         # The list primes should start from index 2 and end at n. The first two True values are
         # therefore unneeded, but created to simplify the usage of indeces.
-        primes = [True for i in range(n + 1)]
+        primes = [True for _ in range(n + 1)]
         primes[0] = "NA"
         primes[1] = "NA"
         i = 2

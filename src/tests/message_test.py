@@ -22,21 +22,44 @@ class TestMessage(unittest.TestCase):
 
     def test_text_to_integer(self):
         examples = [
-            {"text": "abcxyzåäö", "answer": 397398399120121122229228246},
-            {"text": "AÖ", "answer": 365214},
-            {"text": '19.!"()', "answer": 349357346333334340341},
+            {"text": "abyzABYZ", "answer": None},
+            {"text": "åäö", "answer": None},
+            {"text": "ÅÄÖ", "answer": None},
+            {"text": '019.!"() -', "answer": None},
+            {"text": "a", "answer": None},
         ]
+        # Create answers
+        for e in examples:
+            # First create the hexadecimal representation of the text
+            hexadecimal = "0x"
+            for character in e["text"]:
+                hexadecimal += str(hex(ord(character)))[2:]
+            # Turn the hexadecimal into a decimal integer
+            answer = int(hexadecimal, 16)
+            e["answer"] = answer
+
         for e in examples:
             x = self.msg.text_to_integer(e["text"])
             self.assertEqual(x, e["answer"])
 
     def test_integer_to_text(self):
         examples = [
-            {"integer": 397398399120121122229228246, "answer": "abcxyzåäö"},
-            {"integer": 365214, "answer": "AÖ"},
-            {"integer": 349357346333334340341, "answer": '19.!"()'},
-            {"integer": 365214, "answer": "AÖ"},
+            {"integer": None, "answer": "abyzABYZ"},
+            {"integer": None, "answer": "åäö"},
+            {"integer": None, "answer": "ÅÄÖ"},
+            {"integer": None, "answer": '019.!"() -'},
+            {"integer": None, "answer": "a"},
         ]
+        # Create integers
+        for e in examples:
+            # First create the hexadecimal representation of the text
+            hexadecimal = "0x"
+            for character in e["answer"]:
+                hexadecimal += str(hex(ord(character)))[2:]
+            # Turn the hexadecimal into a decimal integer
+            integer = int(hexadecimal, 16)
+            e["integer"] = integer
+
         for e in examples:
             x = self.msg.integer_to_text(e["integer"])
             self.assertEqual(x, e["answer"])
