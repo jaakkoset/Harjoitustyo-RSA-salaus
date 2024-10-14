@@ -35,8 +35,6 @@ class TestMessage(unittest.TestCase):
 
     def encrypt_decrypt_encrypt(self, bits: int, text: str):
         key = self.generator.create_key(bits)
-        # if len(str(key["n"])) < 309:
-        #    raise ValueError("less than 309 digits in n:", len(str(key["n"])))
         integer = self.msg.text_to_integer(text)
         encrypted = self.msg.encrypt(integer, key["e"], key["n"])
         decrypted = self.msg.decrypt(encrypted, key["d"], key["n"])

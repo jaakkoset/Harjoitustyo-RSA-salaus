@@ -64,10 +64,22 @@ class TestMessage(unittest.TestCase):
             x = self.msg.integer_to_text(e["integer"])
             self.assertEqual(x, e["answer"])
 
-    def test_text_to_integer_to_text(self):
+    def test_text_integer_text(self):
         """Tests both text_to_integer and integer_to_text by converting a text into an
-        integer and back to text. Tested text is 1337 characters long."""
+        integer and back to text. Tested text is 1342 characters long."""
         with open("src/tests/data/" + "rsa-text.txt") as file:
+            text = ""
+            for row in file:
+                text += row
+
+        integer = self.msg.text_to_integer(text)
+        new_text = self.msg.integer_to_text(integer)
+        self.assertEqual(text, new_text)
+
+    def test_text_integer_text_newlines(self):
+        """Tests both text_to_integer and integer_to_text by converting a text into an
+        integer and back to text. Tested text has 1337 characters and 9 newlines."""
+        with open("src/tests/data/" + "rsa-text_with_newlines.txt") as file:
             text = ""
             for row in file:
                 text += row
