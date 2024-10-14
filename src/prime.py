@@ -17,17 +17,22 @@ class Prime:
         n: an integer >= 4
         Returns:
         True when n is probably prime and False always when it is not prime"""
+
+        if n < 4:
+            raise ValueError(
+                "Miller-Rabin can only accept values greater than or equal to 4."
+            )
         k = 20
         s, d = self.factor_twos(n - 1)
+        # Check s to make sure we don't waste time checking even numbers. When s = 0,
+        # n-1 is odd, and n must be even.
         if s == 0:
             return False
-            # Make sure we don't waste time checking even numbers.
-            # When s = 0 then n-1 is odd, and then n must be even.
-            # raise ValueError("Even number given to Miller-Rabin")
-        for i in range(k):
+
+        for _ in range(k):
             a = randint(2, n - 2)
             x = pow(a, d, n)
-            for j in range(s):
+            for _ in range(s):
                 y = pow(x, 2, n)
                 if y == 1 and x != 1 and x != n - 1:
                     return False
