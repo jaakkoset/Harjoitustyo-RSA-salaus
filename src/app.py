@@ -138,6 +138,7 @@ class Program:
         return None, None, None
 
     def cmd5_decrypt(self):
+        message = None
         if not self.no_key():
             message = self.decrypter()
         if message:
