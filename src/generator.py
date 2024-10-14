@@ -25,11 +25,11 @@ class Generator:
 
         Returns:
         A dictionary containing all parts of the encryption keys"""
-        # The while-loop makes sure the enryption key length (length of n) is at least
-        # the number of bits as the argument bits asks for.
         n = 0
         i = 0
         start = time()
+        # The while-loop makes sure the enryption key length (length of n) is at least
+        # the number of bits as the argument bits asks for.
         while n < 2 ** (bits - 1):
             i += 1
             # 1. Choose two primes p and q

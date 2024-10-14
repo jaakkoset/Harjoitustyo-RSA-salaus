@@ -19,7 +19,9 @@ class Message:
             # Find the Unicode code point
             value = ord(character)
             if value > 255:
-                raise ValueError("A non UTF-8 character found")
+                raise ValueError(
+                    f"A non UTF-8 character found: {character} (value {value})"
+                )
             # turn the value into a hexadecimal
             value = hex(value)
             # remove the 0x in the beginning of the hexadecimal
@@ -49,11 +51,8 @@ class Message:
         for i in range(0, len(hexadecimal), 2):
             if i + 1 > len(hexadecimal) - 1:
                 raise ValueError(
-                    "Index error in integer_to_text.",
-                    "i:",
-                    i,
-                    "len(hexadecimal):",
-                    len(hexadecimal),
+                    f"Index error in integer_to_text. i: {i}",
+                    f"len(hexadecimal): {len(hexadecimal)}",
                 )
             value = hexadecimal[i] + hexadecimal[i + 1]
             # turn the hexadecimal into a decimal

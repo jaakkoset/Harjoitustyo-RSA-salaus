@@ -9,10 +9,9 @@ class TestMessage(unittest.TestCase):
         self.generator = Generator()
 
     def test_encryption_1024_big(self):
-        """Tests encryption with a 1024 bit key. The length of the encrypted text is 101
-        characters. 1024 bit key should be able to encrypt 102 or 103 characters, but
-        for some reason these tests now fail."""
-        text = self.open_file(103)
+        """Tests encryption with a 1024 bit key. The length of the encrypted text is 128
+        characters, which is the maximum for this key length."""
+        text = self.open_file(128)
         self.encrypt_decrypt_encrypt(1024, text)
 
     def test_encryption_1024_medium(self):
@@ -30,7 +29,7 @@ class TestMessage(unittest.TestCase):
     # # Testing the 2048 bit key takes between 1 to 20 seconds.
     # def test_encrypt_decrypt_encrypt_2048(self):
     #     """Tests encryption with a 2048 bit key. The length of the encrypted text is the
-    #     maximum for this key length, 204 characters."""
+    #     maximum for this key length,  characters."""
     #     self.encrypt_decrypt_encrypt(2048, 205)
 
     def encrypt_decrypt_encrypt(self, bits: int, text: str):
