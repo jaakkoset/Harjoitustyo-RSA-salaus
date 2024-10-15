@@ -26,11 +26,12 @@ class TestMessage(unittest.TestCase):
         text = "a"
         self.encrypt_decrypt_encrypt(1024, text)
 
-    # # Testing the 2048 bit key takes between 1 to 20 seconds.
-    # def test_encrypt_decrypt_encrypt_2048(self):
-    #     """Tests encryption with a 2048 bit key. The length of the encrypted text is the
-    #     maximum for this key length,  characters."""
-    #     self.encrypt_decrypt_encrypt(2048, 205)
+    # Testing the 2048 bit key takes between 1 to 20 seconds.
+    def test_encrypt_decrypt_encrypt_2048(self):
+        """Tests encryption with a 2048 bit key. The length of the encrypted text is the
+        maximum for this key length, 256 characters."""
+        text = self.open_file(256)
+        self.encrypt_decrypt_encrypt(2048, text)
 
     def encrypt_decrypt_encrypt(self, bits: int, text: str):
         key = self.generator.create_key(bits)
@@ -39,7 +40,7 @@ class TestMessage(unittest.TestCase):
         decrypted = self.msg.decrypt(encrypted, key["d"], key["n"])
         message = self.msg.integer_to_text(decrypted)
 
-        self.assertEqual(text, message)
+        self.assertEqual(message, text)
 
     def open_file(self, text_length: int):
         with open("src/tests/data/" + "text-" + str(text_length) + ".txt") as file:

@@ -1,1 +1,1 @@
-This text has a length of 128 characters, which is the maximum length that a 1024 bit key can encipher.åäö!"#¤%&/<()=?`{[]};:_-
+This text has 128 UTF-8 characters, which is the maximum length that a 1024 bit key can  encipher.åäö!"#¤%&/<()=?`{[]};:_-<>´^¨

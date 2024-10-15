@@ -32,7 +32,7 @@ class Message:
             if len(value) > 2:
                 print("hexadecimal value:")
                 print(value)
-                raise ValueError("Too large hexadecimal value")
+                raise ValueError(f"Too large hexadecimal value: {value}")
 
             hexadecimal += value
 
