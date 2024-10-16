@@ -5,6 +5,17 @@ from prime import Prime
 class TestKey(unittest.TestCase):
     def setUp(self):
         self.prime = Prime()
+        self.mersenne_primes = [
+            2**61 - 1,
+            2**31 - 1,
+            2**89 - 1,
+            2**107 - 1,
+            2**127 - 1,
+            2**521 - 1,
+            2**607 - 1,
+            2**1279 - 1,
+            2**2203 - 1,
+        ]
 
     def test_miller_rabin_small(self):
         """Test Miller-Rabin with small values of 4-541"""
@@ -34,7 +45,7 @@ class TestKey(unittest.TestCase):
             # assume i is not prime, unless it is found from the list primes
             prime = False
             if int(primes[j]) == i:
-                # i is in the list primes so it is a prime number
+                # i is on the list primes so it is a prime number
                 prime = True
                 j += 1
 
@@ -51,19 +62,22 @@ class TestKey(unittest.TestCase):
             self.assertEqual(test, prime, msg)
 
     def test_miller_rabin_mersenne_primes(self):
-        """Test Miller-Rabin using seven large Mersenne primes."""
-        mersenne_primes = (
-            2**89 - 1,
-            2**107 - 1,
-            2**127 - 1,
-            2**521 - 1,
-            2**607 - 1,
-            2**1279 - 1,
-            2**2203 - 1,
-        )
+        """Test Miller-Rabin using nine large Mersenne primes."""
+        mersenne_primes = self.mersenne_primes
         for prime in mersenne_primes:
             x = self.prime.miller_rabin(prime)
             self.assertEqual(x, True)
+
+    def test_miller_rabin_composites_from_mersenne_primes(self):
+        """Test Miller-Rabin with composites calculated by multiplying Mersenne primes.
+        Each Mersenne prime is multiplied once with all other Mersenne primes on the list.
+        This creates numbers that are necessarily composites."""
+        mersenne_primes = self.mersenne_primes
+        for i in range(len(mersenne_primes)):
+            for j in range(i + 1, len(mersenne_primes)):
+                composite = mersenne_primes[i] * mersenne_primes[j]
+                test = self.prime.miller_rabin(composite)
+                self.assertEqual(test, False)
 
     def test_factor_twos(self):
         """factor_twos returns s and d in n = 2^s * d,
