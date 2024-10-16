@@ -6,7 +6,8 @@ class TestKey(unittest.TestCase):
     def setUp(self):
         self.prime = Prime()
 
-    def test_miller_rabin(self):
+    def test_miller_rabin_small(self):
+        """Test Miller-Rabin with small values of 4-541"""
         # primes is a list of prime numbers 2-541
         primes = self.open_file("first_100_primes.csv")
         # Start from prime number 5, because the smallest argument Miller-Rabin
@@ -22,9 +23,44 @@ class TestKey(unittest.TestCase):
             x = self.prime.miller_rabin(i)
             self.assertEqual(x, prime)
 
+    def test_miller_rabin_medium(self):
+        """Test Miller-Rabin with values between 961 748 941 and 961 915 909.
+        That is 8 000 primes and 166 968 values in total"""
+
+        # Primes is a list of primes
+        primes = self.open_file_space("primes50.txt", 1000)
+        j = 0
+        for i in range(int(primes[0]), int(primes[-1]) + 1):
+            # assume i is not prime, unless it is found from the list primes
+            prime = False
+            if int(primes[j]) == i:
+                # i is in the list primes so it is a prime number
+                prime = True
+                j += 1
+
+            # test what Miller-Rabin algorithm says about i
+            test = self.prime.miller_rabin(i)
+            # Sometimes rarely Miller-Rabin may misidentify a prime number as a
+            # composite number. It should never, however, claim that a composite
+            # number is a prime number.
+            msg = (
+                f"Tested number: {i}"
+                f"\nThe tested number was prime: {prime}"
+                f"\nMiller-Rabin claimed it was a prime: {test}"
+            )
+            self.assertEqual(test, prime, msg)
+
     def test_miller_rabin_mersenne_primes(self):
-        """Test Miller-Rabin using three large Mersenne primes."""
-        mersenne_primes = (2**607 - 1, 2**1279 - 1, 2**2203 - 1)
+        """Test Miller-Rabin using seven large Mersenne primes."""
+        mersenne_primes = (
+            2**89 - 1,
+            2**107 - 1,
+            2**127 - 1,
+            2**521 - 1,
+            2**607 - 1,
+            2**1279 - 1,
+            2**2203 - 1,
+        )
         for prime in mersenne_primes:
             x = self.prime.miller_rabin(prime)
             self.assertEqual(x, True)
@@ -70,11 +106,31 @@ class TestKey(unittest.TestCase):
         self.check_primes_trial_division(primes)
 
     def open_file(self, file_name: str):
+        """Reads files with prime numbers and returns the primes in a list. Works
+        with files where the primes are in one row and separated by a comma."""
         with open("src/tests/data/" + file_name) as file:
             for row in file:
                 row = row.replace("\n", "")
                 row = row.replace(" ", "")
                 primes = row.split(",")
+        return primes
+
+    def open_file_space(self, file_name: str, rows: int = 125000):
+        """Reads files with prime numbers and returns the primes in a list. Works
+        with files where the primes are separated by a space. The argument rows
+        determines how many rows are saved from the file"""
+        primes = ""
+        with open("src/tests/data/" + file_name) as file:
+            i = 0
+            for row in file:
+                row = row.replace("\n", "")
+                primes = primes + row
+
+                i += 1
+                if i > rows - 1:
+                    break
+
+            primes = primes.split()
         return primes
 
     def check_primes_trial_division(self, primes: list):
