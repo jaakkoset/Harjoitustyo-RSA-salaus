@@ -66,10 +66,12 @@ class TestKey(unittest.TestCase):
         mersenne_primes = self.mersenne_primes
         for prime in mersenne_primes:
             x = self.prime.miller_rabin(prime)
-            self.assertEqual(x, True)
+            self.assertTrue(
+                x, "Miller-Rabin claimed that a Mersenne prime is not a prime"
+            )
 
     def test_miller_rabin_composites_from_mersenne_primes(self):
-        """Test Miller-Rabin with composites calculated by multiplying Mersenne primes.
+        """Test Miller-Rabin with composites created by multiplying Mersenne primes.
         Each Mersenne prime is multiplied once with all other Mersenne primes on the list.
         This creates numbers that are necessarily composites."""
         mersenne_primes = self.mersenne_primes
@@ -77,7 +79,7 @@ class TestKey(unittest.TestCase):
             for j in range(i + 1, len(mersenne_primes)):
                 composite = mersenne_primes[i] * mersenne_primes[j]
                 test = self.prime.miller_rabin(composite)
-                self.assertEqual(test, False)
+                self.assertFalse(test, "Miller-Rabin claimed that a composite is prime")
 
     def test_factor_twos(self):
         """factor_twos returns s and d in n = 2^s * d,
