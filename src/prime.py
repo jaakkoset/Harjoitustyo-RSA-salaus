@@ -67,7 +67,7 @@ class Prime:
         while True:
 
             # Make sure n has the number of bits as the argument bits defines.
-            # randbits() returns numbers that are less or equal to the given bit
+            # randbits() returns numbers that are less than or equal to the given bit
             # length. The while loop makes sure the number is always exactly the given
             # bit length.
             n = 0

@@ -5,10 +5,12 @@ from time import time
 
 class Generator:
     """
-    This class has two methods for generating encryption keys. Method create_key
-    generates an ecryption key with random values and method create_own_key allows the
-    user to create an enryption key with prime numbers and an exponent e of their own
-    choice.
+    This class has two methods for generating encryption keys.
+
+    Method create_key generates an ecryption key with random values.
+
+    Method create_own_key allows the user to create an enryption key with prime numbers
+    and an exponent e of their own choice.
     """
 
     def __init__(self) -> None:
@@ -75,10 +77,12 @@ class Generator:
 
     def create_own_key(self, p: int, q: int, e: int = 65537) -> dict | None:
         """This method allows the creation of own encryption keys.
+
         Arguments:
         p: a prime number
         q: a prime number
-        e: an optional argument. Must be coprime with lambda(n) from the Carmichael function
+        e: an optional argument. Must be coprime with lambda(p*q) from the Carmichael function. Using e = (p-1)(q-1) should be fine too.
+
         Returns:
         A dictionary containing all parts of the encryption keys or None
         if any arguments are invalid"""

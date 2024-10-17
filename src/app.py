@@ -110,7 +110,7 @@ class Program:
         Asks the user to type in a message, then turns the message into
         an integer and encrypts the integer. Returns the message, integer
         and cipher in a tuple. Gives values None to all of these, if
-        encryption failes.
+        encryption fails.
 
         Returns:
         A tuple (message, integer, cipher) when encryption is successful,

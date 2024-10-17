@@ -7,6 +7,8 @@ class TestMessage(unittest.TestCase):
         self.msg = Message()
 
     def test_encrypt(self):
+        """Encrypts integer 65 with given keys and asserts that the encrypted
+        integer is 2790."""
         # Example values from Wikipedia:
         # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
         example = {"plain_text": 65, "e": 17, "n": 3233, "cipher": 2790}
@@ -14,6 +16,8 @@ class TestMessage(unittest.TestCase):
         self.assertEqual(x, example["cipher"])
 
     def test_decrypt(self):
+        """Decrypts the integer 2790 with given keys and asserts that the
+        decrypted message is 65."""
         # Example values from Wikipedia:
         # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
         example = {"chiper": 2790, "d": 413, "n": 3233, "plain_text": 65}
