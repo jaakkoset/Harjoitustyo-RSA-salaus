@@ -183,5 +183,5 @@ class TestPrime(unittest.TestCase):
                 if i > rows - 1:
                     break
 
-            primes = primes.split()
+        primes = primes.split()
         return primes
