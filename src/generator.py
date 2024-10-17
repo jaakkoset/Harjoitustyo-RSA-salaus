@@ -106,7 +106,7 @@ class Generator:
                 # 2. Calculate n = pq
                 n = p * q
 
-                # 3. Calculate lambda(n) := ln
+                # 3. Calculate ln := lambda(n)
                 ln = self.key.lcm(p - 1, q - 1)
 
                 # 4. Check that e and ln are coprime.

@@ -3,7 +3,10 @@ from secrets import randbits
 
 
 class Prime:
-    """This class is used to generate prime numbers for encryption keys"""
+    """This class is used to generate prime numbers for encryption keys.
+
+    The method random_prime generates a random prime using the Miller-Rabin algorithm.
+    The argument bits determines how long the prime number will be in bits."""
 
     def __init__(self) -> None:
         # 301st prime is 1933
@@ -51,9 +54,11 @@ class Prime:
         return s, n
 
     def trial_division(self, nro: int) -> bool:
-        """Returns true when the given number is prime and false otherwise.
-        This is the simplest algorithm to test whether a given number is prime.
-        It is inefficient with large numbers."""
+        """Returns true when the argument is prime and false otherwise. This is the
+        simplest algorithm to test whether a given number is prime but it is
+        inefficient. That is why it is only used to test the method random_prime
+        with small values."""
+
         i = 2
         while i * i <= nro:
             if nro % i == 0:

@@ -1,14 +1,10 @@
-# from key import Key
-# from prime import Prime
 from message import Message
 from generator import Generator
 
 
 class Program:
     def __init__(self):
-        # self.key = Key()
         self.encryption = Message()
-        # self.prime = Prime()
         self.generator = Generator()
 
         # n and e are the public keys and d is the secret key.
