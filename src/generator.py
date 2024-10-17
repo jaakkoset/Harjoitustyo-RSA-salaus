@@ -43,7 +43,9 @@ class Generator:
         end = time()
         print()
         print("vaiheet 1-2", round(end - start, 5))
-        print("Kierroksia", i)
+        # i tells how many pairs of primes had to be tested before an n of the desired
+        # length was found.
+        print("Alkulukupareja kokeiltu", i)
 
         # 3. Calculate lambda(n) := ln using Charmichael function.
         # Since p and q are primes the problem reduces to ln = lcm(p-1, q-1),

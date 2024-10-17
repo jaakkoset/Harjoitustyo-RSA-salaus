@@ -81,18 +81,14 @@ class Program:
         if not self.keys["d"]:
             print("Avainta ei ole määritelty")
         else:
-            print("d.  Pituus ", len(str(self.keys["d"])))
-            print(self.keys["d"])
-            print("n.  Pituus ", len(str(self.keys["n"])))
-            print(self.keys["n"])
-            print("e.  Pituus ", len(str(self.keys["e"])))
-            print(self.keys["e"])
-            print("p.  Pituus ", len(str(self.keys["p"])))
-            print(self.keys["p"])
-            print("q.  Pituus ", len(str(self.keys["q"])))
-            print(self.keys["q"])
-            print("ln. Pituus ", len(str(self.keys["ln"])))
-            print(self.keys["ln"])
+            for key in ["d", "n", "e", "p", "q", "ln"]:
+                print(
+                    f"{key}  Pituus: desimaalina {len(str(self.keys[key]))} / "
+                    f"bitteinä {len(str(bin(self.keys[key]))) - 2}"
+                )
+                print(self.keys[key])
+                print()
+
             print("Viestin suurin sallittu pituus:")
             print(self.max_len)
 
@@ -123,6 +119,9 @@ class Program:
         check = True
         print("Kirjoita salattava viesti")
         message = input()
+        if message == "":
+            print("Viesti ei voi olla tyhjä merkkijono")
+            check = False
         if len(message) > self.max_len:
             print(
                 f"\nViesti on liian pitkä. Pituus on {len(message)}.",

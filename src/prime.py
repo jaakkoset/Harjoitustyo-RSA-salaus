@@ -66,7 +66,10 @@ class Prime:
         of the prime is determined in terms of bits."""
         while True:
 
-            # Make sure n has the number of bits as the argument bits defines
+            # Make sure n has the number of bits as the argument bits defines.
+            # randbits() returns numbers that are less or equal to the given bit
+            # length. The while loop makes sure the number is always exactly the given
+            # bit length.
             n = 0
             while n < 2 ** (bits - 1):
                 n = randbits(bits)
