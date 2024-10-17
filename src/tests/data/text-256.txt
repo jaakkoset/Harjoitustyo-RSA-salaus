@@ -1,1 +1,1 @@
-This text has a length of 256 characters, which is the maximum length that a 2048 bit key can encipher, when each character is assigned a UTF-8 value between 0 and 255. One of the characters is a hidden newline at the beginning of the text. åäö!"#¤%&/()=?
+This text has a length of 256 characters, which is the maximum length that a 2048 bit key can encipher, when each character is assigned a ASCII value between 0 and 255. abcdefghijklmopqrstuvwxyzåälABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ!"#¤%&/()=?`´¨'*-_<>@£${}:;+2.

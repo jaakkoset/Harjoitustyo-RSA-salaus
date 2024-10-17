@@ -1,5 +1,6 @@
 class Message:
-    """This class has methods to encrypt and decrypt messages"""
+    """This class has methods to encrypt and decrypt messages and to turn text into
+    integers and back to text."""
 
     def encrypt(self, message: int, e: int, n: int):
         """Encrypts a message using keys e and n."""
@@ -11,7 +12,7 @@ class Message:
 
     def text_to_integer(self, text: str):
         """Turns text into an integer using Unicode code points up to the value
-        of 255. This means UTF-8 (or extended ASCII) characters can be encoded."""
+        of 255. This includes all ASCII characters and more."""
         if text == "":
             raise ValueError("An empty string cannot be turned into an integer")
         hexadecimal = "0x"
@@ -20,7 +21,7 @@ class Message:
             value = ord(character)
             if value > 255:
                 raise ValueError(
-                    f"A non UTF-8 character found: {character} (value {value})"
+                    f"A non ASCII character found: {character} (value {value})"
                 )
             # turn the value into a hexadecimal
             value = hex(value)
@@ -58,7 +59,9 @@ class Message:
             # turn the hexadecimal into a decimal
             value = int(value, 16)
             if value > 255:
-                raise ValueError("Non UTF-8 character in integer to text conversion")
+                raise ValueError(
+                    f"A non ASCII character found: {chr(value)} (value {value})"
+                )
             character = chr(value)
             text += character
 
