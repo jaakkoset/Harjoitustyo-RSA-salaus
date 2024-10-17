@@ -2,7 +2,7 @@ import unittest
 from prime import Prime
 
 
-class TestKey(unittest.TestCase):
+class TestPrime(unittest.TestCase):
     def setUp(self):
         self.prime = Prime()
         self.mersenne_primes = [
@@ -67,13 +67,13 @@ class TestKey(unittest.TestCase):
         for prime in mersenne_primes:
             x = self.prime.miller_rabin(prime)
             self.assertTrue(
-                x, "Miller-Rabin claimed that a Mersenne prime is not a prime"
+                x, "Miller-Rabin claimed that a Mersenne prime is not prime"
             )
 
     def test_miller_rabin_composites_from_mersenne_primes(self):
-        """Test Miller-Rabin with composites created by multiplying Mersenne primes.
-        Each Mersenne prime is multiplied once with all other Mersenne primes on the list.
-        This creates numbers that are necessarily composites."""
+        """Test Miller-Rabin with composites created from Mersenne primes.
+        The composites are created by multiplying pairs of Mersenne primes taken from
+        a list."""
         mersenne_primes = self.mersenne_primes
         for i in range(len(mersenne_primes)):
             for j in range(i + 1, len(mersenne_primes)):
@@ -82,8 +82,8 @@ class TestKey(unittest.TestCase):
                 self.assertFalse(test, "Miller-Rabin claimed that a composite is prime")
 
     def test_factor_twos(self):
-        """factor_twos returns s and d in n = 2^s * d,
-        when given an argument n. In operation n is always even."""
+        """factor_twos returns s and d in n = 2^s * d, when given an argument n. When
+        factor_twos is used in the program, n is always even."""
         examples = [
             # Small even number
             {"number": (2**3 * 3), "factors": (3, 3)},
@@ -105,21 +105,58 @@ class TestKey(unittest.TestCase):
             x = self.prime.factor_twos(e["number"])
             self.assertEqual(x, e["factors"])
 
-    def test_trial_division(self):
-        # First we load the first 100 primes
+    def test_trial_division_small(self):
+        """Tests trial division with numbers between 2 and 541. Checks that trial
+        division accepts all primes and rejects all composites in that range."""
         primes = self.open_file("first_100_primes.csv")
-        # Now primes contains prime numbers 2 - 541. We now want to check that
-        # trial_division identifies all primes and rejects all other numbers
-        # in range 2 - 541.
         self.check_primes_trial_division(primes)
 
-    def test_trial_division2(self):
-        # First we load the list of primes
+    def test_trial_division_large(self):
+        """Tests trial division with numbers between 1034233 and 1048129. Checks that
+        trial division accepts all primes and rejects all composites in that range."""
         primes = self.open_file("primes_81001-82000.csv")
-        # Now primes contains prime numbers 1034233 - 1048129. We now want to check that
-        # trial_division identifies all primes and rejects all other numbers
-        # in that range.
         self.check_primes_trial_division(primes)
+
+    def check_primes_trial_division(self, primes: list):
+        """
+        Helper function for the trial_division tests. Compares a list of
+        predetermined prime numbers to the answers given by the trial by division
+        algorithm. Asserts that trial division identifies all the numbers in the list
+        as primes and numbers not in the list as composites.
+
+        Arguments:
+        primes: a list of primes that is known to be correct.
+        """
+        # j points the next prime in the list
+        j = 0
+        # i is a number between the first and last prime
+        for i in range(int(primes[0]), int(primes[-1]) + 1):
+            # assume i is not prime
+            prime = False
+            if int(primes[j]) == i:
+                # i is in primes so it is a prime number
+                prime = True
+                j += 1
+
+            x = self.prime.trial_division(i)
+            self.assertEqual(x, prime)
+
+    def test_random_prime(self):
+        """Test random_prime by comparing the results with trial_division. Tests 50
+        random primes that are up to 30 bits long."""
+        for _ in range(50):
+            x = self.prime.random_prime(30)
+            y = self.prime.trial_division(x)
+            self.assertTrue(y, f"random_prime generated a non prime number {x}")
+
+    def test_erastothenes_sieve(self):
+        """Test erastothenes_sieve by calculating primes up to 7919 and
+        comparing the result with a predetermined list"""
+        # primes is a list of prime numbers between 2 - 7919
+        primes = self.open_file("first_1000_primes.csv")
+        primes = [int(prime) for prime in primes]
+        test_primes = self.prime.eratosthenes_sieve(primes[-1] + 1)
+        self.assertEqual(test_primes, primes)
 
     def open_file(self, file_name: str):
         """Reads files with prime numbers and returns the primes in a list. Works
@@ -148,40 +185,3 @@ class TestKey(unittest.TestCase):
 
             primes = primes.split()
         return primes
-
-    def check_primes_trial_division(self, primes: list):
-        """Helper function for the trial_division tests. Compares a list of
-        predetermined prime numbers to the answers given by the trial by
-        division algorithm.
-        Arguments:
-        primes: a list of primes that is known to be correct
-        trial_division: set True if trial division is tested and False if Miller Rabin
-        is tested
-        Returns:
-        Nothing. Asserts that the anwers are equal."""
-        j = 0
-        for i in range(int(primes[0]), int(primes[-1]) + 1):
-            prime = False
-            if int(primes[j]) == i:
-                # i is in primes so it is a prime number
-                prime = True
-                j += 1
-
-            x = self.prime.trial_division(i)
-            self.assertEqual(x, prime)
-
-    def test_random_prime(self):
-        """Test random_prime by comparing the results with trial_division."""
-        for _ in range(50):
-            x = self.prime.random_prime(30)
-            y = self.prime.trial_division(x)
-            self.assertTrue(y, f"random_prime generated a non prime number {x}")
-
-    def test_erastothenes_sieve(self):
-        """Test erastothenes_sieve by calculating primes up to 7919 and
-        comparing the result with a predetermined list"""
-        # primes is a list of prime numbers between 2 - 7919
-        primes = self.open_file("first_1000_primes.csv")
-        primes = [int(prime) for prime in primes]
-        test_primes = self.prime.eratosthenes_sieve(primes[-1] + 1)
-        self.assertEqual(test_primes, primes)
