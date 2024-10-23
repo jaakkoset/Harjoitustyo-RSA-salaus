@@ -84,12 +84,14 @@ class Prime:
 
             # Try dividing n with the first 300 primes, so that we don't give
             # the Miller-Rabin algorithm poor prime candidates.
+            check = True
             for s in self.sieve:
                 if n % s == 0:
-                    continue
+                    check = False
 
-            if self.miller_rabin(n):
-                return n
+            if check:
+                if self.miller_rabin(n):
+                    return n
 
     def eratosthenes_sieve(self, n: int) -> list:
         """Calculates all primes up to n.
