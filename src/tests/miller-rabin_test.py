@@ -1,4 +1,5 @@
 import unittest
+import pytest
 from prime import Prime
 import re
 
@@ -20,6 +21,13 @@ class TestPrime(unittest.TestCase):
             2**1279 - 1,
             2**2203 - 1,
         ]
+
+    def test_miller_rabin_less_than_4(self):
+        """Test that Miller-Rabin raises an exception when it is given values less
+        than four."""
+        for i in range(-1, 4):
+            with pytest.raises(Exception):
+                self.prime.miller_rabin(i)
 
     def test_miller_rabin_small(self):
         """Test Miller-Rabin with small values of 4-541"""
