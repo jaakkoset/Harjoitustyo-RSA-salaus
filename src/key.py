@@ -24,14 +24,16 @@ class Key:
         euclidian algorithm. Here d is the modular multiplicative inverse of
         e modulo lambda(n), meaning de = 1 (mod lambda(n)). This can be solved
         efficiently using the extended Euclidean algorithm. Because e and
-        lambda(n) are coprime, the Bezout identity reduces to
-        ax + by = gcd(a,b)
-        ax + by = 1
-        ax - 1 = (-y)b
-        ax = 1 (mod b),
-        which gives us de = 1 (mod ln). Using the reduced version of the
-        extended Euclidian algorithm, we calculate only the coefficient a (or
-        in out case d), which is all we need.
+        lambda(n) are coprime, the Bezout identity (ax + by = gcd(a,b)) reduces to
+
+        e*d + ln*y = gcd(e, ln)
+        e*d + ln*y = 1
+        e*d - 1 = (-y)ln
+        e*d = 1 (mod ln).
+
+        Using this reduced version of the extended Euclidian algorithm, we calculate
+        only the coefficient d, which is all we need (the extended Euclidean algorithm
+        would also return y and gcd).
 
         Arguments:
         e: Exponent e
@@ -57,7 +59,7 @@ class Key:
             newr = var - quotient * newr
 
         if r > 1:
-            raise ValueError("e ei ole kääntyvä")
+            raise ValueError("e and ln are not coprime")
         if d < 0:
             d = d + ln
 
