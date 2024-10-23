@@ -92,6 +92,14 @@ class TestPrime(unittest.TestCase):
         for number in numbers:
             self.assertFalse(self.prime.miller_rabin(number))
 
+    def test_miller_rabin_rsa_challenge_primes(self):
+        """Tests Miller-Rabin with 46 large  primes. The primes are the known
+        solutions for the numbers of the RSA-challenge. 23 of the RSA-challenge
+        numbers have been solved."""
+        numbers = self.file.open_file_space("rsa-challenge_solutions.txt", 50)
+        for number in numbers:
+            self.assertTrue(self.prime.miller_rabin(int(number)))
+
 
 class OpenFile:
     """Methods for opening files. These should probably be in a module,
@@ -107,10 +115,13 @@ class OpenFile:
                 primes = row.split(",")
         return primes
 
-    def open_file_space(self, file_name: str, rows: int = 125000):
+    def open_file_space(self, file_name: str, rows: int) -> list:
         """Reads files with prime numbers and returns the primes in a list. Works
         with files where the primes are separated by a space. The argument rows
-        determines how many rows are saved from the file"""
+        determines how many rows are read and saved from the file.
+
+        Returns:
+        List of numbers. The numbers are in string format."""
         primes = ""
         with open("src/tests/data/" + file_name) as file:
             i = 0
