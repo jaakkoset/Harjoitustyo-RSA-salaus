@@ -1,7 +1,7 @@
 class Key:
     """This class offers functions necessary in key creation"""
 
-    def lcm(self, a, b):
+    def lcm(self, a: int, b: int):
         """Calculates the least common multiple of a and b."""
         # lcm(a, b) = abs(ab) / gcd(a,b)
         # gcd means greatest common divisor and can be calculated with the euclidean algorithm
@@ -10,7 +10,7 @@ class Key:
         ln = absolute // gcd
         return ln
 
-    def euclidean_algorithm(self, a, b):
+    def euclidean_algorithm(self, a: int, b: int):
         """Euclidean algorithm solves the greatest common divisor (gcd)."""
         while b != 0:
             t = b
@@ -65,7 +65,7 @@ class Key:
 
         return d
 
-    def extended_euclidian_algorithm(self, a, b):
+    def extended_euclidian_algorithm(self, a: int, b: int):
         """Solves the gratest common divisor (gcd) of a and b as well as the
         coefficients x and y of Bezout's identity ax + by = gcd(a,b). This method is
         not used in the program and is only used to test multiplicative_inverse and

@@ -14,12 +14,16 @@ class Prime:
         self.sieve = self.eratosthenes_sieve(1933)
 
     def miller_rabin(self, n: int) -> bool:
-        """Returns true when number is probably prime and false otherwise.
+        """
+        Returns true when number is probably prime and false otherwise.
         Uses the Miller-Rabin algorithm.
+
         Arguments:
         n: an integer >= 4
+
         Returns:
-        True when n is probably prime and False always when it is not prime"""
+        True when n is probably prime and False always when it is not prime
+        """
 
         if n < 4:
             raise ValueError(
@@ -44,7 +48,7 @@ class Prime:
                 return False
         return True
 
-    def factor_twos(self, n):
+    def factor_twos(self, n: int) -> tuple:
         """For a given integer n, solves s and d in n = 2^s * d
         and returns a tuple (s, d)."""
         s = 0
@@ -66,7 +70,7 @@ class Prime:
             i += 1
         return True
 
-    def random_prime(self, bits: int):
+    def random_prime(self, bits: int) -> int:
         """Returns a random prime number using Miller-Rabin algorithm. The length
         of the prime is determined in terms of bits."""
         while True:
@@ -88,6 +92,7 @@ class Prime:
             for s in self.sieve:
                 if n % s == 0:
                     check = False
+                    break
 
             if check:
                 if self.miller_rabin(n):
