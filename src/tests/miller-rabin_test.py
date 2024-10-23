@@ -5,7 +5,7 @@ import re
 
 
 class TestPrime(unittest.TestCase):
-    """Tests Miller-Rabin algorithm"""
+    """Tests for the Miller-Rabin algorithm"""
 
     def setUp(self):
         self.prime = Prime()
@@ -84,8 +84,7 @@ class TestPrime(unittest.TestCase):
 
     def test_miller_rabin_composites_from_mersenne_primes(self):
         """Test Miller-Rabin with composites created from Mersenne primes.
-        The composites are created by multiplying pairs of Mersenne primes taken from
-        a list."""
+        The composites are created by multiplying pairs of Mersenne primes."""
         mersenne_primes = self.mersenne_primes
         for i in range(len(mersenne_primes)):
             for j in range(i + 1, len(mersenne_primes)):
@@ -94,15 +93,15 @@ class TestPrime(unittest.TestCase):
                 self.assertFalse(test, "Miller-Rabin claimed that a composite is prime")
 
     def test_miller_rabin_rsa_challenge_composites(self):
-        """Tests Miller-Rabin with large composites from the RSA-challenge. The
+        """Test Miller-Rabin with large composites from the RSA-challenge. The
         numbers can be found from the file rsa-challenge.txt."""
         numbers = self.file.open_file_rsa_challenge()
         for number in numbers:
             self.assertFalse(self.prime.miller_rabin(number))
 
     def test_miller_rabin_rsa_challenge_primes(self):
-        """Tests Miller-Rabin with 46 large  primes. The primes are the known
-        solutions for the numbers of the RSA-challenge. 23 of the RSA-challenge
+        """Test Miller-Rabin with 46 large primes. The primes are the known
+        solutions for the the RSA-challenge. 23 of the RSA-challenge
         numbers have been solved."""
         numbers = self.file.open_file_space("rsa-challenge_solutions.txt", 50)
         for number in numbers:
@@ -111,11 +110,11 @@ class TestPrime(unittest.TestCase):
 
 class OpenFile:
     """Methods for opening files. These should probably be in a module,
-    but Pytest won't find my modules and I don't know how to fix it."""
+    but Pytest does not find my modules and I don't know how to fix it."""
 
     def open_file_comma(self, file_name: str):
-        """Reads files with prime numbers and returns the primes in a list. Works
-        with files where the primes are in one row and separated by a comma."""
+        """Read files of numbers and return them in a list. Works with files where
+        the numbers are in one row and separated by a comma."""
         with open("src/tests/data/" + file_name) as file:
             for row in file:
                 row = row.replace("\n", "")
@@ -124,8 +123,8 @@ class OpenFile:
         return primes
 
     def open_file_space(self, file_name: str, rows: int) -> list:
-        """Reads files with prime numbers and returns the primes in a list. Works
-        with files where the primes are separated by a space. The argument rows
+        """Read files of numbers and return them in a list. Works
+        with files where the numbers are separated by a space. The argument rows
         determines how many rows are read and saved from the file.
 
         Returns:
@@ -145,10 +144,14 @@ class OpenFile:
         return primes
 
     def open_file_rsa_challenge(self) -> list:
-        """Opens the file rsa-challenge.txt. It contains 45 large composite numbers
-        from the RSA-challenge. The file is not in an easily readable format.
-        The copied numbers are checked using a checksum that is provided in the file.
-        Also the lengths of the numbers are checked."""
+        """Open the file rsa-challenge.txt and return the numbers in it in a list.
+        It contains the 45 large composite numbers of the RSA-challenge. The file is
+        not in an easily readable format. The copied numbers are checked using a
+        checksum that is provided in the file. Also the lengths of the numbers are
+        checked.
+
+        Returns:
+        List of integers."""
         n = 0
         numbers = []
         with open("src/tests/data/rsa-challenge.txt") as file:
@@ -200,7 +203,7 @@ class OpenFile:
         return numbers
 
     def check_number(self, number, digits, checksum):
-        """Raises an error if open_file_rsa_challenge has made a mistake in copying
+        """Raise an error if open_file_rsa_challenge has made a mistake in copying
         a number"""
         try:
             int(number)

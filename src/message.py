@@ -12,7 +12,7 @@ class Message:
 
     def text_to_integer(self, text: str):
         """Turns text into an integer using Unicode code points up to the value
-        of 255. This includes all ASCII characters and more."""
+        of 255. This includes all extended ASCII characters."""
         if text == "":
             raise ValueError("An empty string cannot be turned into an integer")
         hexadecimal = "0x"

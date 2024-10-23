@@ -14,7 +14,7 @@ class Prime:
         self.sieve = self.eratosthenes_sieve(1933)
 
     def miller_rabin(self, n: int) -> bool:
-        """Function returns true when number is probably prime and false otherwise.
+        """Returns true when number is probably prime and false otherwise.
         Uses the Miller-Rabin algorithm.
         Arguments:
         n: an integer >= 4
@@ -45,7 +45,7 @@ class Prime:
         return True
 
     def factor_twos(self, n):
-        """For the given integer n solves s and d in n = 2^s * d
+        """For a given integer n, solves s and d in n = 2^s * d
         and returns a tuple (s, d)."""
         s = 0
         while n % 2 == 0:

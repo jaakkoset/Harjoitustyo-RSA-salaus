@@ -11,7 +11,7 @@ class Key:
         return ln
 
     def euclidean_algorithm(self, a, b):
-        """Euclidean algorithm solves the greatest common divisor gcd."""
+        """Euclidean algorithm solves the greatest common divisor (gcd)."""
         while b != 0:
             t = b
             b = a % b
@@ -66,10 +66,10 @@ class Key:
         return d
 
     def extended_euclidian_algorithm(self, a, b):
-        """Extended Euclidian algorithm solves the gcd of a and b as well as the
-        coefficients x and y of Bezout's identity ax + by = gcd(a,b).
-        In creating keys this method is replaced by the method multiplicative_inverse
-        and is only to test it and the method euclidean_algorithm.
+        """Solves the gratest common divisor (gcd) of a and b as well as the
+        coefficients x and y of Bezout's identity ax + by = gcd(a,b). This method is
+        not used in the program and is only used to test multiplicative_inverse and
+        euclidean_algorithm.
         """
         # r stands for remainder.
         old_r, r = a, b
