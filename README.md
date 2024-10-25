@@ -8,6 +8,12 @@ Repositorio Aineopintojen harjoitustyölle RSA-salauksesta.
 
 [Käyttöohje](./dokumentaatio/kayttoohje.md)
 
+[Toteutusdokumentti](./dokumentaatio/toteutusdokumentti.md)
+
+[Testausdokumentti](./dokumentaatio/testausdokumentti.md)
+
+## Viikkoraportit
+
 [Viikkoraportti 1](./dokumentaatio/viikkoraportit/viikkoraportti_1.md)
 
 [Viikkoraportti 2](./dokumentaatio/viikkoraportit/viikkoraportti_2.md)
