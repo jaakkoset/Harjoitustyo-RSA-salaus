@@ -58,14 +58,10 @@ class Generator:
         print("vaihe 3", round(end - start, 5))
 
         # 4. Choose e that is coprime with ln.
-        # We will use the default value of e = 65537.
-        start = time()
+        # We will use the default value of e = 65537. There is a small chance that
+        # 65537 and ln are not coprime. In that case method multiplicative_inverse
+        # in key.py raises an error.
         e = 65537
-        if ln % e == 0:
-            # There is a very small chance that ln is divisble by e.
-            raise RuntimeError("When creating keys, lambda(n) was divisible by e")
-        end = time()
-        print("vaihe 3", round(end - start, 5))
 
         # 5. determine d, the modular multiplicative inverse of e mod lambda(n)
         start = time()
