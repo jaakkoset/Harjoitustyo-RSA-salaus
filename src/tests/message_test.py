@@ -103,7 +103,7 @@ class TestMessage(unittest.TestCase):
     def test_text_to_integer_non_ascii(self):
         """Test that text_to_integer raises an error with characrters that have an
         Unicode code point value more than 255."""
-        for i in range(256, 260):
+        for i in range(256, 266):
             with pytest.raises(ValueError):
                 character = chr(i)
                 self.msg.text_to_integer(character)

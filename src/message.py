@@ -49,16 +49,12 @@ class Message:
                 f"The hexadecimal representation cannot have an odd number of digits"
             )
         text = ""
-        # A character has a Unicode code point that is two digits long in hexadecimal
-        # representation, so we look at two digits at a time (i and i+1).
+        # A character has a two digits long hexadecimal representation, so we look at
+        # two digits at a time (i and i+1).
         for i in range(0, len(hexadecimal), 2):
             value = hexadecimal[i] + hexadecimal[i + 1]
             # turn the hexadecimal into a decimal
             value = int(value, 16)
-            if value > 255:
-                raise ValueError(
-                    f"A non ASCII character found: {chr(value)} (value {value})"
-                )
             character = chr(value)
             text += character
 
