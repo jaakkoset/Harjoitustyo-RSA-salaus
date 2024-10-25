@@ -1,4 +1,5 @@
 import unittest
+import pytest
 from message import Message
 
 
@@ -9,7 +10,7 @@ class TestMessage(unittest.TestCase):
         self.ascii = """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"""
 
     def test_encrypt(self):
-        """Encrypts integer 65 with given keys and asserts that the encrypted
+        """Encrypt the integer 65 with given keys and assert that the encrypted
         integer is 2790."""
         # Example values from Wikipedia:
         # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
@@ -18,7 +19,7 @@ class TestMessage(unittest.TestCase):
         self.assertEqual(x, example["cipher"])
 
     def test_decrypt(self):
-        """Decrypts the integer 2790 with given keys and asserts that the
+        """Decrypt the integer 2790 with given keys and assert that the
         decrypted message is 65."""
         # Example values from Wikipedia:
         # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
@@ -27,7 +28,7 @@ class TestMessage(unittest.TestCase):
         self.assertEqual(x, example["plain_text"])
 
     def test_text_to_integer(self):
-        """Test text to integer conversion"""
+        """Test text to integer conversion with all ascii characters and ääkköset"""
         examples = [
             {"text": self.ascii, "answer": None},
             {"text": "åäöÅÄÖ", "answer": None},
@@ -49,7 +50,7 @@ class TestMessage(unittest.TestCase):
             self.assertEqual(x, e["answer"])
 
     def test_integer_to_text(self):
-        """Test integer to text conversion"""
+        """Test integer to text conversion with all ascii characters and ääkköset"""
         examples = [
             {"integer": None, "answer": self.ascii},
             {"integer": None, "answer": "åäöÅÄÖ"},
@@ -71,7 +72,7 @@ class TestMessage(unittest.TestCase):
             self.assertEqual(x, e["answer"])
 
     def test_text_integer_text(self):
-        """Tests both text_to_integer and integer_to_text by converting a text into an
+        """Test both text_to_integer and integer_to_text by converting a text into an
         integer and back to text. Tested text is 1342 characters long."""
         with open("src/tests/data/" + "rsa-text.txt") as file:
             text = ""
@@ -83,7 +84,7 @@ class TestMessage(unittest.TestCase):
         self.assertEqual(text, new_text)
 
     def test_text_integer_text_newlines(self):
-        """Tests both text_to_integer and integer_to_text by converting a text into an
+        """Test both text_to_integer and integer_to_text by converting a text into an
         integer and back to text. Tested text has 1337 characters and 9 newlines."""
         with open("src/tests/data/" + "rsa-text_with_newlines.txt") as file:
             text = ""
@@ -93,3 +94,16 @@ class TestMessage(unittest.TestCase):
         integer = self.msg.text_to_integer(text)
         new_text = self.msg.integer_to_text(integer)
         self.assertEqual(text, new_text)
+
+    def test_text_to_integer_empty_string(self):
+        "Test that text_to_integer raises an error when it is given an empty string"
+        with pytest.raises(Exception):
+            self.msg.text_to_integer("")
+
+    def test_text_to_integer_non_ascii(self):
+        """Test that text_to_integer raises an error with characrters that have an
+        Unicode code point value more than 255."""
+        for i in range(256, 260):
+            with pytest.raises(Exception):
+                character = chr(i)
+                self.msg.text_to_integer(character)
