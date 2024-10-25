@@ -5,6 +5,8 @@ from message import Message
 class TestMessage(unittest.TestCase):
     def setUp(self):
         self.msg = Message()
+        # All printable ascii characters with \ escaped
+        self.ascii = """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"""
 
     def test_encrypt(self):
         """Encrypts integer 65 with given keys and asserts that the encrypted
@@ -25,11 +27,11 @@ class TestMessage(unittest.TestCase):
         self.assertEqual(x, example["plain_text"])
 
     def test_text_to_integer(self):
+        """Test text to integer conversion"""
         examples = [
-            {"text": "abyzABYZ", "answer": None},
-            {"text": "åäö", "answer": None},
-            {"text": "ÅÄÖ", "answer": None},
-            {"text": '019.!"() -', "answer": None},
+            {"text": self.ascii, "answer": None},
+            {"text": "åäöÅÄÖ", "answer": None},
+            {"text": "\\", "answer": None},
             {"text": "a", "answer": None},
         ]
         # Create answers
@@ -47,11 +49,11 @@ class TestMessage(unittest.TestCase):
             self.assertEqual(x, e["answer"])
 
     def test_integer_to_text(self):
+        """Test integer to text conversion"""
         examples = [
-            {"integer": None, "answer": "abyzABYZ"},
-            {"integer": None, "answer": "åäö"},
-            {"integer": None, "answer": "ÅÄÖ"},
-            {"integer": None, "answer": '019.!"() -'},
+            {"integer": None, "answer": self.ascii},
+            {"integer": None, "answer": "åäöÅÄÖ"},
+            {"integer": None, "answer": "\\"},
             {"integer": None, "answer": "a"},
         ]
         # Create integers
