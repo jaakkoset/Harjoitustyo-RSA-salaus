@@ -93,9 +93,14 @@ class TestPrime(unittest.TestCase):
                 self.assertFalse(test, "Miller-Rabin claimed that a composite is prime")
 
     def test_miller_rabin_rsa_challenge_composites(self):
-        """Test Miller-Rabin with large composites from the RSA-challenge. The
-        numbers can be found from the file rsa-challenge.txt."""
+        """Test Miller-Rabin with 45 large composite numbers from the RSA-challenge.
+        The numbers are in the rsa-challenge.txt file."""
         numbers = self.file.open_file_rsa_challenge()
+        # Make sure 45 numbers were copied
+        if len(numbers) != 45:
+            raise RuntimeError(
+                "Wrong amount of numbers were copied from rsa-challenge.txt"
+            )
         for number in numbers:
             self.assertFalse(self.prime.miller_rabin(number))
 
@@ -103,7 +108,12 @@ class TestPrime(unittest.TestCase):
         """Test Miller-Rabin with 46 large primes. The primes are the known
         solutions for the the RSA-challenge. 23 of the RSA-challenge
         numbers have been solved."""
-        numbers = self.file.open_file_space("rsa-challenge_solutions.txt", 50)
+        numbers = self.file.open_file_space("rsa-challenge_solutions.txt", 46)
+        # Make sure 46 primes were copied
+        if len(numbers) != 46:
+            raise RuntimeError(
+                "Wrong amount of primes were copied from rsa-challenge_solutions.txt"
+            )
         for number in numbers:
             self.assertTrue(self.prime.miller_rabin(int(number)))
 
@@ -145,14 +155,13 @@ class OpenFile:
 
     def open_file_rsa_challenge(self) -> list:
         """Open the file rsa-challenge.txt and return the numbers in it in a list.
-        It contains the 45 large composite numbers of the RSA-challenge. The file is
-        not in an easily readable format. The copied numbers are checked using a
+        The file contains 45 large composite numbers from the RSA-challenge. The file
+        is not in an easily readable format. The copied numbers are checked using a
         checksum that is provided in the file. Also the lengths of the numbers are
         checked.
 
         Returns:
-        List of integers."""
-        n = 0
+        A list of integers."""
         numbers = []
         with open("src/tests/data/rsa-challenge.txt") as file:
             i = 0
