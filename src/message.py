@@ -27,7 +27,7 @@ class Message:
             value = hex(value)
             # remove the 0x in the beginning of the hexadecimal
             value = str(value)[2:]
-            # hexadecimals must have two digits (because decimal value must be 0-255)
+            # hexadecimals must have two digits
             if len(value) == 1:
                 value = "0" + value
 
@@ -40,17 +40,18 @@ class Message:
     def integer_to_text(self, integer: int):
         """Turns integers back to text."""
         hexadecimal = hex(integer)
-        # remove the 0x in the beginning of the hexadecimal
+        # remove the 0x at the beginning of the hexadecimal
         hexadecimal = str(hexadecimal)[2:]
+        # All characters have a two digits long hexadecimal representation, so this
+        # number must have an even amount of digits.
+        if len(hexadecimal) % 2 != 0:
+            raise ValueError(
+                f"The hexadecimal representation cannot have an odd number of digits"
+            )
         text = ""
-        # One character has a Unicode code point of two hexadecimal digits, so we
-        # look two digits at a time.
+        # A character has a Unicode code point that is two digits long in hexadecimal
+        # representation, so we look at two digits at a time (i and i+1).
         for i in range(0, len(hexadecimal), 2):
-            if i + 1 > len(hexadecimal) - 1:
-                raise ValueError(
-                    f"Index error in integer_to_text. i: {i}",
-                    f"len(hexadecimal): {len(hexadecimal)}",
-                )
             value = hexadecimal[i] + hexadecimal[i + 1]
             # turn the hexadecimal into a decimal
             value = int(value, 16)

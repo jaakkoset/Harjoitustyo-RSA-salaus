@@ -97,13 +97,22 @@ class TestMessage(unittest.TestCase):
 
     def test_text_to_integer_empty_string(self):
         "Test that text_to_integer raises an error when it is given an empty string"
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             self.msg.text_to_integer("")
 
     def test_text_to_integer_non_ascii(self):
         """Test that text_to_integer raises an error with characrters that have an
         Unicode code point value more than 255."""
         for i in range(256, 260):
-            with pytest.raises(Exception):
+            with pytest.raises(ValueError):
                 character = chr(i)
                 self.msg.text_to_integer(character)
+
+    def test_integer_to_text_digits_error(self):
+        """Test that integer_to_text raises an error when the hexadecimal representation
+        of the argument integer has an odd amount of digits."""
+        arguments = ["F", "111", "ABC", "89ABC"]
+        for arg in arguments:
+            with pytest.raises(ValueError):
+                integer = int(arg, 16)
+                self.msg.integer_to_text(integer)

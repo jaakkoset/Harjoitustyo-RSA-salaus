@@ -23,10 +23,10 @@ class TestPrime(unittest.TestCase):
         ]
 
     def test_miller_rabin_less_than_4(self):
-        """Test that Miller-Rabin raises an exception when it is given values less
+        """Test that Miller-Rabin raises a ValueError when it is given values less
         than four."""
         for i in range(-1, 4):
-            with pytest.raises(Exception):
+            with pytest.raises(ValueError):
                 self.prime.miller_rabin(i)
 
     def test_miller_rabin_small(self):
