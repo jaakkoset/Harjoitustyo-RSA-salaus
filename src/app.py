@@ -1,10 +1,10 @@
-from message import Message
+from encryption import Encryption
 from create_key import CreateKey
 
 
 class Program:
     def __init__(self):
-        self.encryption = Message()
+        self.encryption = Encryption()
         self.create = CreateKey()
 
         # n and e are the public keys and d is the secret key.
@@ -14,8 +14,6 @@ class Program:
         self.message = {"text": None, "integer": None, "cipher": None}
         # Maximum length for messages
         self.max_len = 0
-
-        # self.program()
 
     def program(self):
         while True:

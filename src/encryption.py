@@ -1,4 +1,4 @@
-class Message:
+class Encryption:
     """This class has methods to encrypt and decrypt messages and to turn text into
     integers and back to text."""
 

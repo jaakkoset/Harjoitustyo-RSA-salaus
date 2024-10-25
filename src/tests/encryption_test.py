@@ -1,11 +1,11 @@
 import unittest
-from message import Message
+from encryption import Encryption
 from create_key import CreateKey
 
 
-class TestGenerator(unittest.TestCase):
+class TestCreateKey(unittest.TestCase):
     def setUp(self):
-        self.msg = Message()
+        self.encryption = Encryption()
         self.create = CreateKey()
 
     def test_encryption_1024_big(self):
@@ -36,10 +36,10 @@ class TestGenerator(unittest.TestCase):
         """Helper function. Encrypts the given text and then decrypts it. Then asserts
         that that the message has remained the same."""
         key = self.create.create_key(bits)
-        integer = self.msg.text_to_integer(text)
-        encrypted = self.msg.encrypt(integer, key["e"], key["n"])
-        decrypted = self.msg.decrypt(encrypted, key["d"], key["n"])
-        message = self.msg.integer_to_text(decrypted)
+        integer = self.encryption.text_to_integer(text)
+        encrypted = self.encryption.encrypt(integer, key["e"], key["n"])
+        decrypted = self.encryption.decrypt(encrypted, key["d"], key["n"])
+        message = self.encryption.integer_to_text(decrypted)
 
         self.assertEqual(message, text)
 

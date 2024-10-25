@@ -1,11 +1,11 @@
 import unittest
 import pytest
-from message import Message
+from encryption import Encryption
 
 
-class TestMessage(unittest.TestCase):
+class TestEncryption(unittest.TestCase):
     def setUp(self):
-        self.msg = Message()
+        self.encryption = Encryption()
         # All printable ascii characters with \ escaped
         self.ascii = """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"""
 
@@ -15,7 +15,7 @@ class TestMessage(unittest.TestCase):
         # Example values from Wikipedia:
         # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
         example = {"plain_text": 65, "e": 17, "n": 3233, "cipher": 2790}
-        x = self.msg.encrypt(example["plain_text"], example["e"], example["n"])
+        x = self.encryption.encrypt(example["plain_text"], example["e"], example["n"])
         self.assertEqual(x, example["cipher"])
 
     def test_decrypt(self):
@@ -24,7 +24,7 @@ class TestMessage(unittest.TestCase):
         # Example values from Wikipedia:
         # https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Example
         example = {"chiper": 2790, "d": 413, "n": 3233, "plain_text": 65}
-        x = self.msg.decrypt(example["chiper"], example["d"], example["n"])
+        x = self.encryption.decrypt(example["chiper"], example["d"], example["n"])
         self.assertEqual(x, example["plain_text"])
 
     def test_text_to_integer(self):
@@ -46,7 +46,7 @@ class TestMessage(unittest.TestCase):
             e["answer"] = answer
 
         for e in examples:
-            x = self.msg.text_to_integer(e["text"])
+            x = self.encryption.text_to_integer(e["text"])
             self.assertEqual(x, e["answer"])
 
     def test_integer_to_text(self):
@@ -68,7 +68,7 @@ class TestMessage(unittest.TestCase):
             e["integer"] = integer
 
         for e in examples:
-            x = self.msg.integer_to_text(e["integer"])
+            x = self.encryption.integer_to_text(e["integer"])
             self.assertEqual(x, e["answer"])
 
     def test_text_integer_text(self):
@@ -79,8 +79,8 @@ class TestMessage(unittest.TestCase):
             for row in file:
                 text += row
 
-        integer = self.msg.text_to_integer(text)
-        new_text = self.msg.integer_to_text(integer)
+        integer = self.encryption.text_to_integer(text)
+        new_text = self.encryption.integer_to_text(integer)
         self.assertEqual(text, new_text)
 
     def test_text_integer_text_newlines(self):
@@ -91,14 +91,14 @@ class TestMessage(unittest.TestCase):
             for row in file:
                 text += row
 
-        integer = self.msg.text_to_integer(text)
-        new_text = self.msg.integer_to_text(integer)
+        integer = self.encryption.text_to_integer(text)
+        new_text = self.encryption.integer_to_text(integer)
         self.assertEqual(text, new_text)
 
     def test_text_to_integer_empty_string(self):
         "Test that text_to_integer raises an error when it is given an empty string"
         with pytest.raises(ValueError):
-            self.msg.text_to_integer("")
+            self.encryption.text_to_integer("")
 
     def test_text_to_integer_non_ascii(self):
         """Test that text_to_integer raises an error with characrters that have an
@@ -106,7 +106,7 @@ class TestMessage(unittest.TestCase):
         for i in range(256, 266):
             with pytest.raises(ValueError):
                 character = chr(i)
-                self.msg.text_to_integer(character)
+                self.encryption.text_to_integer(character)
 
     def test_integer_to_text_digits_error(self):
         """Test that integer_to_text raises an error when the hexadecimal representation
@@ -115,4 +115,4 @@ class TestMessage(unittest.TestCase):
         for arg in arguments:
             with pytest.raises(ValueError):
                 integer = int(arg, 16)
-                self.msg.integer_to_text(integer)
+                self.encryption.integer_to_text(integer)
