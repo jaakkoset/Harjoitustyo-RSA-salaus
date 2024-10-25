@@ -12,7 +12,7 @@ class Message:
 
     def text_to_integer(self, text: str):
         """Turns text into an integer using Unicode code points up to the value
-        of 255. This includes all extended ASCII characters."""
+        of 255. This includes ASCII and extended ASCII characters."""
         if text == "":
             raise ValueError("An empty string cannot be turned into an integer")
         hexadecimal = "0x"
@@ -27,13 +27,9 @@ class Message:
             value = hex(value)
             # remove the 0x in the beginning of the hexadecimal
             value = str(value)[2:]
-            # hexadecimals must have two digits
-            if len(value) < 2:
+            # hexadecimals must have two digits (because decimal value must be 0-255)
+            if len(value) == 1:
                 value = "0" + value
-            if len(value) > 2:
-                print("hexadecimal value:")
-                print(value)
-                raise ValueError(f"Too large hexadecimal value: {value}")
 
             hexadecimal += value
 
