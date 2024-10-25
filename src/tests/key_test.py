@@ -1,4 +1,5 @@
 import unittest
+import pytest
 from key import Key
 
 
@@ -76,17 +77,59 @@ class TestKey(unittest.TestCase):
             right = x["gcd"]
             self.assertEqual(left, right)
 
-    def test_multiplicative_inverse(self):
+    def test_multiplicative_inverse_small(self):
         """Tests the multiplicative_inverse by checking that de - 1 is divisible by ln.
         This is equivalent to testing that ed mod ln = 1.
-        e and ln must be coprime."""
+        e and ln must be coprime. Tested values for ln are small."""
         # Use the default value of 65537 for e
         e = 65537
         # Find ln > e, that is not divisible by e
-        lns = [e * 10**200 + 1, 98761234598765796143875]
-        for ln in lns:
+        for ln in range(e + 1, e + 40):
             if ln % e == 0:
-                raise ValueError("ln is divisible by e")
+                raise ValueError("e and ln are not coprime")
             d = self.key.multiplicative_inverse(e, ln)
             de = d * e
             self.assertEqual(de % ln, 1)
+
+    def test_multiplicative_inverse_big(self):
+        """Tests the multiplicative_inverse by checking that de - 1 is divisible by ln.
+        This is equivalent to testing that ed mod ln = 1.
+        e and ln must be coprime. Tested values for ln are around the size as used in
+        the program."""
+        # Use the default value of 65537 for e
+        e = 65537
+        # Find ln > e, that is not divisible by e
+        start = 10**303 * e + 1
+        # Test 65535 values
+        for ln in range(start, start + 65536):
+            if ln % e == 0:
+                raise ValueError("e and ln are not coprime")
+            d = self.key.multiplicative_inverse(e, ln)
+            de = d * e
+            self.assertEqual(de % ln, 1)
+
+    def test_multiplicative_inverse_error_small(self):
+        """Test that multiplicative_inverse raises an error when arguments e and ln
+        are not coprime. Because we always use a value for e that is prime, e and ln
+        are not coprime if and only if ln is a multiple of e. This test uses small
+        values for the multiples."""
+        # Use the default value of 65537 for e
+        e = 65537
+        # Make multiples for ln
+        for multiple in range(2, 100):
+            with pytest.raises(Exception):
+                self.key.multiplicative_inverse(e, multiple * e)
+
+    def test_multiplicative_inverse_error_big(self):
+        """Test that multiplicative_inverse raises an error when arguments e and ln
+        are not coprime. Because we always use a value for e that is prime, e and ln
+        are not coprime if and only if ln is a multiple of e. This test uses big
+        values for the multiples, which are around the same size used in the program.
+        """
+        # Use the default value of 65537 for e
+        e = 65537
+        # Make multiples for ln
+        start = 10**303
+        for multiple in range(start, start + 100):
+            with pytest.raises(Exception):
+                self.key.multiplicative_inverse(e, multiple * e)
