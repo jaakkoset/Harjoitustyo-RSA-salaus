@@ -3,7 +3,7 @@ from key import Key
 from time import time
 
 
-class Generator:
+class CreateKey:
     """
     This class has two methods for generating encryption keys.
 

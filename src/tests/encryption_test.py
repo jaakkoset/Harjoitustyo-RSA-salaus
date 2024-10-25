@@ -1,12 +1,12 @@
 import unittest
 from message import Message
-from generator import Generator
+from create_key import CreateKey
 
 
 class TestGenerator(unittest.TestCase):
     def setUp(self):
         self.msg = Message()
-        self.generator = Generator()
+        self.create = CreateKey()
 
     def test_encryption_1024_big(self):
         """Tests encryption with a 1024 bit key. The length of the encrypted text is 128
@@ -35,7 +35,7 @@ class TestGenerator(unittest.TestCase):
     def encrypt_decrypt(self, bits: int, text: str):
         """Helper function. Encrypts the given text and then decrypts it. Then asserts
         that that the message has remained the same."""
-        key = self.generator.create_key(bits)
+        key = self.create.create_key(bits)
         integer = self.msg.text_to_integer(text)
         encrypted = self.msg.encrypt(integer, key["e"], key["n"])
         decrypted = self.msg.decrypt(encrypted, key["d"], key["n"])

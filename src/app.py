@@ -1,11 +1,11 @@
 from message import Message
-from generator import Generator
+from create_key import CreateKey
 
 
 class Program:
     def __init__(self):
         self.encryption = Message()
-        self.generator = Generator()
+        self.create = CreateKey()
 
         # n and e are the public keys and d is the secret key.
         # p, q and ln are used to create the keys and are unneeded afterwards.
@@ -53,7 +53,7 @@ class Program:
                 break
 
     def cmd1_random_key(self):
-        self.keys = self.generator.create_key(1024)
+        self.keys = self.create.create_key(1024)
         self.set_max_len()
 
     def cmd2_own_key(self):
@@ -64,7 +64,7 @@ class Program:
         print("Anna eksponentti e tai käytä oletusarvoa 65537 painamalla enter:")
         e = input()
         print()
-        x = self.generator.create_own_key(p, q, e)
+        x = self.create.create_own_key(p, q, e)
         if not x:
             print("Avaimen luonti epäonnistui")
         else:
