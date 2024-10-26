@@ -6,16 +6,17 @@ Ohjelman kaikki koodi sijaitsee src-kansiossa.
 
 `app.py` sisältää luokan Program, jossa on käyttöliittymän tarvitsemat metodit sekä ohjelmasilmukka. Käyttäjän luomat salausavaimet ja viestit tallennetaan luokan Program muuttujiksi.
 
-`generator.py` sisältää kaksi metodia salausavainten luomiseen. Metodi create_key luo satunnaisen 1024 bittisen salausavaimen ja metodi create_own_key luo salausavaimen käyttäjän määrittämillä arvoilla.
+`create_key.py` sisältää metodit salausavainten luomiseen. Metodi create_key luo satunnaisen salausavaimen ja metodi create_own_key luo salausavaimen käyttäjän määrittämillä arvoilla.
 
 `key.py` sisältää metodeja, joita tarvitaan salausavaimen luonnissa. Se sisältää kuitenkin myös metodin extended_euclidian_algorithm, jota käytetään vain muiden metodien testaamiseen.
 
-`message.py` sisältää metodit, joilla viestejä salataan ja salauksia puretaan sekä metodit, joilla merkkijonoja muutetaan kokonaisluvuiksi ja toisin päin.
+`encryption.py` sisältää metodit, joilla viestejä salataan ja salauksia puretaan sekä metodit, joilla merkkijonoja muutetaan kokonaisluvuiksi ja toisin päin.
 
 `prime.py` sisältää metodit, joilla luodaan alkulukuja. 
 
-## Saavutetut aika- ja tilavaativuudet (esim. O-analyysit pseudokoodista)
-## Suorituskyky- ja O-analyysivertailu (mikäli sopii työn aiheeseen)
+## Algoritmien aikavaativuudet
+
+
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
@@ -31,35 +32,42 @@ Kysyin ChatGPT:ltä erilaisia tapoja muuntaa Pythonilla tekstiä kokonaisluvuksi
 
 ## Lähteet
 
-Wikipedia, RSA (cryptosystem).
-https://en.wikipedia.org/wiki/RSA_(cryptosystem)
+Wikipedia: RSA (cryptosystem).  
+https://en.wikipedia.org/wiki/RSA_(cryptosystem) (Haettu 25.10.2024)
 
-Wikipedia, Miller–Rabin primality test.
-https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
+Wikipedia: Miller–Rabin primality test.  
+https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test (Haettu 27.9.2024)
 
-Wikipedia, Sieve of Eratosthenes.
-https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+Wikipedia: Sieve of Eratosthenes.  
+https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes (Haettu 27.9.2024)
 
-Wikipedia, Extended Euclidean algorithm.
-https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+Wikipedia: Euclidean algorithm.  
+https://en.wikipedia.org/wiki/Euclidean_algorithm (Haettu 13.9.2024)
 
-Wikipedia, Mersenne prime.
-https://en.wikipedia.org/wiki/Mersenne_prime
+Wikipedia: Extended Euclidean algorithm.  
+https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm (Haettu 21.9.2024)
 
-Wikipedia, RSA numbers.
-https://en.wikipedia.org/wiki/RSA_numbers
+Wikipedia: Mersenne prime.  
+https://en.wikipedia.org/wiki/Mersenne_prime (Haettu 16.10.2024)
 
-PrimePages, First 1000 primes.
-https://prime-numbers.info/list/first-1000-primes
+Wikipedia: RSA numbers.  
+https://en.wikipedia.org/wiki/RSA_numbers (Haettu 23.10.2024)
 
-PrimePages, First 100 primes.
-https://prime-numbers.info/list/first-100-primes
+PrimePages: First 1000 primes.  
+https://prime-numbers.info/list/first-1000-primes (Haettu 8.10.2024)
 
-PrimePages, List of Primes: 81001 - 82000.
-https://prime-numbers.info/list/primes-page-81
+PrimePages: First 100 primes.  
+https://prime-numbers.info/list/first-100-primes (Haettu 8.10.2024)
 
-PrimePages, The first fifty million primes.
-https://t5k.org/lists/small/millions/
+PrimePages: List of Primes: 81001 - 82000.  
+https://prime-numbers.info/list/primes-page-81 (Haettu 8.10.2024)
 
-RSA-challenge numbers.
-https://www.ontko.com/pub/rayo/primes/rsa_fact.html
+PrimePages: The first fifty million primes.  
+https://t5k.org/lists/small/millions/ (Haettu 16.10.2024)
+
+RSA-challenge numbers.  
+https://www.ontko.com/pub/rayo/primes/rsa_fact.html (Haettu 23.10.2024)
+
+João Pedro Schmitt 2018: Cryptography algorithm RSA — Rivest-Shamir-Adleman.  
+https://joaoschmitt.wordpress.com/2018/09/17/cryptography-algorithm-rsa/ (Haettu 26.10.2024)
+
