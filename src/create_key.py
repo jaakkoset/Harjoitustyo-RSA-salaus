@@ -27,14 +27,14 @@ class CreateKey:
 
         Returns:
         A dictionary containing all parts of the encryption keys"""
+        # 1. Choose two primes p and q
         n = 0
         i = 0
         start = time()
-        # The while-loop makes sure the enryption key length (length of n) is at least
+        # The while-loop makes sure the enryption key length (length of n) is exactly
         # the number of bits as the argument bits asks for.
         while n < 2 ** (bits - 1):
             i += 1
-            # 1. Choose two primes p and q
             # If key length is bits, then p and q should have a length of about bits // 2
             p = self.prime.random_prime(bits // 2)
             q = self.prime.random_prime(bits // 2)
@@ -136,8 +136,8 @@ class CreateKey:
 
     def check_e_ln(self, e, ln) -> bool:
         check = True
-        if e < 2:
-            print("e ei voi olla pienempi kuin 2")
+        if e < 3:
+            print("e ei voi olla pienempi kuin 3")
             check = False
 
         x = self.key.euclidean_algorithm(e, ln)
