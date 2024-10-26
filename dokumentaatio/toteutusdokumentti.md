@@ -16,8 +16,6 @@ Ohjelman kaikki koodi sijaitsee src-kansiossa.
 
 ## Algoritmien aikavaativuudet
 
-RSA-salauksen algoritmit toimivat polynomisessa ajassa. Alla olevat aikavaativuudet on katsottu Wikipediasta.
-
 - Miller-Rabin: O(k*log(n)^3) [2]
 
 - Eukleideen algoritmi: O(log(min(a, b)) [13]
