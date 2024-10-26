@@ -98,26 +98,27 @@ class CreateKey:
             if not self.check_pq(p, q):
                 check = False
 
-            if check:
-                # 2. Calculate n = pq
-                n = p * q
+        if check:
+            # 2. Calculate n = pq
+            n = p * q
 
-                # 3. Calculate ln := lambda(n)
-                ln = self.key.lcm(p - 1, q - 1)
+            # 3. Calculate ln := lambda(n)
+            ln = self.key.lcm(p - 1, q - 1)
 
-                # 4. Check that e and ln are coprime.
-                if not self.check_e_ln(e, ln):
-                    check = False
+            # 4. Check that e and ln are coprime.
+            if not self.check_e_ln(e, ln):
+                check = False
 
-            if check:
-                # 5. determine d, the modular multiplicative inverse of e mod lambda(n)
-                d = self.key.multiplicative_inverse(e, ln)
+        if check:
+            # 5. determine d, the modular multiplicative inverse of e mod lambda(n)
+            d = self.key.multiplicative_inverse(e, ln)
 
         if check:
             return {"p": p, "q": q, "n": n, "e": e, "ln": ln, "d": d}
         return None
 
-    def check_pq(self, p, q) -> bool:
+    def check_pq(self, p: int, q: int) -> bool:
+        """Check that p and q are primes and greater than 3"""
         check = True
         if p < 4:
             print("p ei voi olla pienempi kuin 4")
@@ -134,7 +135,8 @@ class CreateKey:
 
         return check
 
-    def check_e_ln(self, e, ln) -> bool:
+    def check_e_ln(self, e: int, ln: int) -> bool:
+        """Check that e and ln are coprime (not divisible with each other)"""
         check = True
         if e < 3:
             print("e ei voi olla pienempi kuin 3")

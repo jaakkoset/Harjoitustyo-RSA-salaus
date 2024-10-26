@@ -36,8 +36,8 @@ class TestCreateKey(unittest.TestCase):
     def test_create_own_key_small(self):
         """Test creating an own key with example values."""
         example = {"p": 61, "q": 53, "n": 3233, "e": 17, "ln": 780, "d": 413}
-        # When we give p, q and e to create_own_key, other values should be the same
-        # as in the example key.
+        # When we give p, q and e as arguments to create_own_key, other values should
+        # end up being the same as in the example key.
         key = self.create.create_own_key(61, 53, 17)
         for k in example:
             self.assertEqual(example[k], key[k])
@@ -54,5 +54,16 @@ class TestCreateKey(unittest.TestCase):
         argument"""
         key = self.create.create_own_key(61, 53, "")
         self.assertEqual(key["e"], 65537)
+
+    def test_create_own_key_not_primes(self):
+        """Test that create_own_key returns None, when p or q is not prime"""
+        # This is a known prime from the file rsa-challenge_solutions.txt
+        prime = 6264200187401285096151654948264442219302037178623509019111660653946049
+        composite = prime * 37975227936943673922808872755445627854565536638199
+
+        key = self.create.create_own_key(prime, composite, "")
+        self.assertIsNone(key)
+        key = self.create.create_own_key(composite, prime, "")
+        self.assertIsNone(key)
 
     # def test_create_own_key_(self):
