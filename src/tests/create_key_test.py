@@ -66,4 +66,14 @@ class TestCreateKey(unittest.TestCase):
         key = self.create.create_own_key(composite, prime, "")
         self.assertIsNone(key)
 
-    # def test_create_own_key_(self):
+    def test_create_own_key_not_int(self):
+        """Test that create_own_key returns None, when p, q or e is not integer"""
+        # This is a known prime from the file rsa-challenge_solutions.txt
+        test = (
+            {"p": "a", "q": 53, "e": 17},
+            {"p": 61, "q": "a", "e": 17},
+            {"p": 61, "q": 53, "e": "a"},
+        )
+        for t in test:
+            key = self.create.create_own_key(t["p"], t["q"], t["e"])
+            self.assertIsNone(key)
