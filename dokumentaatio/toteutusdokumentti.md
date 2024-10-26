@@ -16,7 +16,17 @@ Ohjelman kaikki koodi sijaitsee src-kansiossa.
 
 ## Algoritmien aikavaativuudet
 
+RSA-salauksen algoritmit toimivat polynomisessa ajassa. Alla olevat aikavaativuudet on katsottu Wikipediasta.
 
+- Miller-Rabin: O(k*log(n)^3) [2]
+
+- Eukleideen algoritmi: O(log(min(a, b)) [13]
+
+  - Pienin yhteinen monikerta lasketaan Eukleideen algoritmilla kaavalla, joten sillä on sama aikavaativuus O(log(min(a, b))
+
+  - Myös Eukleideen laajennetulla algoritmilla on sama aikavaativuus. Lisäksi Modulaariaritmetiikan käänteisluku (modular multiplicative inverse) selvitetään Eukleideen laajennetulla algoritmilla, joten silläkin on sama aikavaativuus O(log(min(a, b))
+
+- Eratostheneen seula: O(n*log(log(n))) [14]
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
@@ -32,42 +42,45 @@ Kysyin ChatGPT:ltä erilaisia tapoja muuntaa Pythonilla tekstiä kokonaisluvuksi
 
 ## Lähteet
 
-Wikipedia: RSA (cryptosystem).  
+1. Wikipedia: RSA (cryptosystem).  
 https://en.wikipedia.org/wiki/RSA_(cryptosystem) (Haettu 25.10.2024)
 
-Wikipedia: Miller–Rabin primality test.  
+2. Wikipedia: Miller–Rabin primality test.  
 https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test (Haettu 27.9.2024)
 
-Wikipedia: Sieve of Eratosthenes.  
+1. Wikipedia: Sieve of Eratosthenes.  
 https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes (Haettu 27.9.2024)
 
-Wikipedia: Euclidean algorithm.  
+1. Wikipedia: Euclidean algorithm.  
 https://en.wikipedia.org/wiki/Euclidean_algorithm (Haettu 13.9.2024)
 
-Wikipedia: Extended Euclidean algorithm.  
+1. Wikipedia: Extended Euclidean algorithm.  
 https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm (Haettu 21.9.2024)
 
-Wikipedia: Mersenne prime.  
+1. Wikipedia: Mersenne prime.  
 https://en.wikipedia.org/wiki/Mersenne_prime (Haettu 16.10.2024)
 
-Wikipedia: RSA numbers.  
+1. Wikipedia: RSA numbers.  
 https://en.wikipedia.org/wiki/RSA_numbers (Haettu 23.10.2024)
 
-PrimePages: First 1000 primes.  
+1. PrimePages: First 1000 primes.  
 https://prime-numbers.info/list/first-1000-primes (Haettu 8.10.2024)
 
-PrimePages: First 100 primes.  
+1. PrimePages: First 100 primes.  
 https://prime-numbers.info/list/first-100-primes (Haettu 8.10.2024)
 
-PrimePages: List of Primes: 81001 - 82000.  
+1. PrimePages: List of Primes: 81001 - 82000.  
 https://prime-numbers.info/list/primes-page-81 (Haettu 8.10.2024)
 
-PrimePages: The first fifty million primes.  
+1. PrimePages: The first fifty million primes.  
 https://t5k.org/lists/small/millions/ (Haettu 16.10.2024)
 
-RSA-challenge numbers.  
+1. RSA-challenge numbers.  
 https://www.ontko.com/pub/rayo/primes/rsa_fact.html (Haettu 23.10.2024)
 
-João Pedro Schmitt 2018: Cryptography algorithm RSA — Rivest-Shamir-Adleman.  
-https://joaoschmitt.wordpress.com/2018/09/17/cryptography-algorithm-rsa/ (Haettu 26.10.2024)
+1. Jitender Punia, 2024: Euclidean Algorithm | Basic and Extended.
+https://www.scaler.com/topics/data-structures/euclidean-algorithm-basic-and-extended/ (Haettu 26.10.2024)
+
+1. GeeksforGeeks, 2023: How is the time complexity of Sieve of Eratosthenes is n*log(log(n))?  
+https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/ (Haettu 26.10.2024)
 
