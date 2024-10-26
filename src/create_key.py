@@ -35,7 +35,7 @@ class CreateKey:
         # the number of bits as the argument bits asks for.
         while n < 2 ** (bits - 1):
             i += 1
-            # If key length is bits, then p and q should have a length of about bits // 2
+            # If key length is bits, then p and q should have a length of bits // 2
             p = self.prime.random_prime(bits // 2)
             q = self.prime.random_prime(bits // 2)
 
@@ -71,7 +71,7 @@ class CreateKey:
 
         return {"p": p, "q": q, "n": n, "e": e, "ln": ln, "d": d}
 
-    def create_own_key(self, p: int, q: int, e: int = 65537) -> dict | None:
+    def create_own_key(self, p: int, q: int, e: int) -> dict | None:
         """This method allows the creation of own encryption keys.
 
         Arguments:
@@ -113,9 +113,9 @@ class CreateKey:
                 # 5. determine d, the modular multiplicative inverse of e mod lambda(n)
                 d = self.key.multiplicative_inverse(e, ln)
 
-        if not check:
-            return None
-        return {"p": p, "q": q, "n": n, "e": e, "ln": ln, "d": d}
+        if check:
+            return {"p": p, "q": q, "n": n, "e": e, "ln": ln, "d": d}
+        return None
 
     def check_pq(self, p, q) -> bool:
         check = True
