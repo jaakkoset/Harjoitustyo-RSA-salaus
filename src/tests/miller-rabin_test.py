@@ -181,8 +181,8 @@ class OpenFile:
                         else:
                             break
 
-                    # Find out the length in digits and the checksum. They are at the end
-                    # of the row in the form of (617 digits, checksum = 909408).
+                    # Find out the length in digits and the checksum. They are at the
+                    # end of the row in the form of (617 digits, checksum = 909408).
                     # i points before them.
                     digits = ""
                     checksum = ""

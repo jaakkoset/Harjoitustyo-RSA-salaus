@@ -14,7 +14,6 @@ class TestPrime(unittest.TestCase):
         examples = [
             # Small even number
             {"number": (2**3 * 3), "factors": (3, 3)},
-            {"number": (24), "factors": (3, 3)},
             # Small odd number
             {"number": (2**3 * 3 + 1), "factors": (0, 25)},
             # Large even number
@@ -68,13 +67,20 @@ class TestPrime(unittest.TestCase):
             x = self.prime.trial_division(i)
             self.assertEqual(x, prime)
 
-    def test_random_prime(self):
+    def test_random_prime_30(self):
         """Test random_prime by comparing the results with trial_division. Tests 50
         random primes that are up to 30 bits long."""
         for _ in range(50):
             x = self.prime.random_prime(30)
             y = self.prime.trial_division(x)
             self.assertTrue(y, f"random_prime generated a non prime number {x}")
+
+    def test_random_prime_512(self):
+        """Test random_prime by comparing the results with trial_division. Tests one
+        random primes that is up to 512 bits long."""
+        random_prime = self.prime.random_prime(512)
+        test_prime = self.prime.miller_rabin(random_prime)
+        self.assertTrue(test_prime, f"random_prime generated a non prime number")
 
     def test_erastothenes_sieve(self):
         """Test erastothenes_sieve by calculating primes up to 7919 and
