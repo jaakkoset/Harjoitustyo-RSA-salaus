@@ -23,8 +23,9 @@ class TestPrime(unittest.TestCase):
         ]
 
     def test_miller_rabin_less_than_4(self):
-        """Test that Miller-Rabin raises a ValueError when it is given values less
+        """Test that Miller-Rabin raises a ValueError when it is given a value less
         than four."""
+        # Test values -1 to 3
         for i in range(-1, 4):
             with pytest.raises(ValueError):
                 self.prime.miller_rabin(i)
@@ -117,14 +118,39 @@ class TestPrime(unittest.TestCase):
         for number in numbers:
             self.assertTrue(self.prime.miller_rabin(int(number)))
 
+    def test_miller_rabin_512_bit(self):
+        """Test Miller-Rabin with two consecutive 512 bit primes and with the 396
+        composite numbers that are between them."""
+        primes = self.file.open_file_space("two_512_bit_primes.txt", 2)
+        # Make sure 2 primes were copied
+        if len(primes) != 2:
+            raise RuntimeError(
+                "Wrong amount of primes were copied from two_512_bit_primes.txt"
+            )
+        # Change the primes from type string into type integer
+        primes = [int(p) for p in primes]
+        i = 0
+        number = primes[0]
+        while i < 2:
+            prime = False
+            if number == primes[i]:
+                # if number is in the list, it is a prime
+                prime = True
+                i += 1
+            self.assertEqual(prime, self.prime.miller_rabin(number))
+            number += 1
+
 
 class OpenFile:
     """Methods for opening files. These should probably be in a module,
     but Pytest does not find my modules and I don't know how to fix it."""
 
-    def open_file_comma(self, file_name: str):
+    def open_file_comma(self, file_name: str) -> list:
         """Read files of numbers and return them in a list. Works with files where
-        the numbers are in one row and separated by a comma."""
+        the numbers are in one row and separated by a comma.
+
+        Returns:
+        A list of numbers. The numbers are in string format."""
         with open("src/tests/data/" + file_name) as file:
             for row in file:
                 row = row.replace("\n", "")
@@ -138,7 +164,7 @@ class OpenFile:
         determines how many rows are read and saved from the file.
 
         Returns:
-        List of numbers. The numbers are in string format."""
+        A list of numbers. The numbers are in string format."""
         primes = ""
         with open("src/tests/data/" + file_name) as file:
             i = 0

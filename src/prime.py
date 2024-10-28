@@ -71,8 +71,13 @@ class Prime:
         return True
 
     def random_prime(self, bits: int) -> int:
-        """Returns a random prime number using Miller-Rabin algorithm. The length
-        of the prime is determined in terms of bits."""
+        """Returns a random prime number using Miller-Rabin algorithm.
+
+        Arguments:
+        bits: The length of the prime.
+
+        Returns:
+        A prime number"""
         while True:
 
             # Make sure n has the number of bits as the argument bits defines.
@@ -120,3 +125,21 @@ class Prime:
 
         primes = [i for i in range(2, n + 1) if primes[i]]
         return primes
+
+
+P = Prime()
+p = P.random_prime(512)
+print("p")
+print(p)
+
+i = 1
+while True:
+    p += 1
+    x = P.miller_rabin(p)
+    if x:
+        break
+    i += 1
+
+print("p")
+print(p)
+print("i", i)
