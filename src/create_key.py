@@ -53,7 +53,7 @@ class CreateKey:
         # Since p and q are primes the problem reduces to ln = lcm(p-1, q-1),
         # where lcm means least common multiple.
         start = time()
-        ln = self.key.lcm(p - 1, q - 1)
+        ln = self.key.least_common_multiple(p - 1, q - 1)
         end = time()
         print("vaihe 3", round(end - start, 5))
 
@@ -103,7 +103,7 @@ class CreateKey:
             n = p * q
 
             # 3. Calculate ln := lambda(n)
-            ln = self.key.lcm(p - 1, q - 1)
+            ln = self.key.least_common_multiple(p - 1, q - 1)
 
             # 4. Check that e and ln are coprime.
             if not self.check_e_ln(e, ln):

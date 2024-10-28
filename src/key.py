@@ -1,7 +1,7 @@
 class Key:
     """This class offers functions necessary in key creation"""
 
-    def lcm(self, a: int, b: int):
+    def least_common_multiple(self, a: int, b: int):
         """Calculates the least common multiple of a and b."""
         # lcm(a, b) = abs(ab) / gcd(a,b)
         # gcd means greatest common divisor and can be calculated with the euclidean algorithm

@@ -7,33 +7,41 @@ class TestKey(unittest.TestCase):
     def setUp(self):
         self.key = Key()
 
-    def test_lcm(self):
+    def test_least_common_multiple(self):
+        """Test least_common_multiple with small values"""
+        # least_common_multiple is given a and b and it should return lcm
         examples = [
-            (2, 10, 10),
-            (10, 2, 10),
-            (5, 7, 35),
-            (100, 17, 1700),
-            (271, 63, 17073),
-            (44, 12, 132),
+            {"a": 2, "b": 10, "lcm": 10},
+            {"a": 10, "b": 2, "lcm": 10},
+            {"a": 5, "b": 7, "lcm": 35},
+            {"a": 100, "b": 17, "lcm": 1700},
+            {"a": 271, "b": 63, "lcm": 17073},
+            {"a": 44, "b": 12, "lcm": 132},
         ]
         for e in examples:
-            x = self.key.lcm(e[0], e[1])
-            self.assertEqual(x, e[2])
+            x = self.key.least_common_multiple(e["a"], e["b"])
+            self.assertEqual(
+                x, e["lcm"], f"Values of a and b: a = {e['a']}, b = {e['b']}"
+            )
 
-    def test_euclidean_algorithm(self):
+    def test_euclidean_algorithm_small(self):
+        """Test Euclidean algorithm with small values"""
+        # euclidean_algorithm is given a and b and it should return gcd
         examples = [
-            (2, 10, 2),
-            (10, 2, 2),
-            (5, 7, 1),
-            (100, 10, 10),
-            (271, 63, 1),
-            (44, 12, 4),
+            {"a": 2, "b": 10, "gcd": 2},
+            {"a": 10, "b": 2, "gcd": 2},
+            {"a": 5, "b": 7, "gcd": 1},
+            {"a": 100, "b": 10, "gcd": 10},
+            {"a": 271, "b": 63, "gcd": 1},
+            {"a": 44, "b": 12, "gcd": 4},
         ]
         for e in examples:
-            x = self.key.euclidean_algorithm(e[0], e[1])
-            self.assertEqual(x, e[2])
+            x = self.key.euclidean_algorithm(e["a"], e["b"])
+            self.assertEqual(
+                x, e["gcd"], f"Values of a and b: a = {e['a']}, b = {e['b']}"
+            )
 
-    def test_euclidean_algorithm2(self):
+    def test_euclidean_algorithm_large(self):
         """Compares the results from the euclidian_algorithm and the
         extended_euclidian_algorithm"""
         examples = [
@@ -63,8 +71,9 @@ class TestKey(unittest.TestCase):
             self.assertEqual(x["gcd"], e[2])
             self.assertEqual(x["coefficients"], e[3])
 
-    def test_extended_euclidean_algorithm2(self):
-        """Checks that the equation ax + by = gcd(a,b) holds."""
+    def test_extended_euclidean_algorithm_equation(self):
+        """Check that the extended Euclidean algorithm finds the solution for the
+        equation ax + by = gcd(a,b), when given integers a and b."""
         examples = [
             (240, 46),
             (242130, 412321166),
@@ -98,9 +107,9 @@ class TestKey(unittest.TestCase):
         the program."""
         # Use the default value of 65537 for e
         e = 65537
-        # Find ln > e, that is not divisible by e
+        # Determine ln > e, that is not divisible by e
         start = 10**303 * e + 1
-        # Test 65535 values
+        # Test in total 65535 values
         for ln in range(start, start + 65536):
             if ln % e == 0:
                 raise ValueError("e and ln are not coprime")
