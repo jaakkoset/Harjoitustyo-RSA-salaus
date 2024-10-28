@@ -29,12 +29,12 @@ class CreateKey:
         A dictionary containing all parts of the encryption keys"""
         # 1. Choose two primes p and q
         n = 0
-        i = 0
         start = time()
         # The while-loop makes sure the enryption key length (length of n) is exactly
         # the number of bits as the argument bits asks for.
+        print()
+        print("Parittomia lukuja kokeiltu alkuluvun tuottamiseksi:")
         while n < 2 ** (bits - 1):
-            i += 1
             # If key length is bits, then p and q should have a length of bits // 2
             p = self.prime.random_prime(bits // 2)
             q = self.prime.random_prime(bits // 2)
@@ -44,10 +44,10 @@ class CreateKey:
 
         end = time()
         print()
+        print()
         print("vaiheet 1-2", round(end - start, 5))
         # i tells how many pairs of primes had to be tested before an n of the desired
         # length was found.
-        print("Alkulukupareja kokeiltu", i)
 
         # 3. Calculate lambda(n) := ln using Charmichael function.
         # Since p and q are primes the problem reduces to ln = lcm(p-1, q-1),

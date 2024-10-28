@@ -78,6 +78,7 @@ class Prime:
 
         Returns:
         A prime number"""
+        attempts = 0
         while True:
 
             # Make sure n has the number of bits as the argument bits defines.
@@ -93,6 +94,7 @@ class Prime:
 
             # Try dividing n with the first 300 primes, so that we don't give
             # the Miller-Rabin algorithm poor prime candidates.
+            attempts += 1
             check = True
             for s in self.sieve:
                 if n % s == 0:
@@ -101,6 +103,7 @@ class Prime:
 
             if check:
                 if self.miller_rabin(n):
+                    print(f"{attempts}  ", end="")
                     return n
 
     def eratosthenes_sieve(self, n: int) -> list:
