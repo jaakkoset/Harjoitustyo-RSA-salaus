@@ -8,11 +8,11 @@ Ohjelman kaikki koodi sijaitsee src-kansiossa.
 
 `create_key.py` sisältää metodit salausavainten luomiseen. Metodi create_key luo satunnaisen salausavaimen ja metodi create_own_key luo salausavaimen käyttäjän määrittämillä arvoilla.
 
-`key.py` sisältää metodeja, joita tarvitaan salausavaimen luonnissa. Se sisältää kuitenkin myös metodin extended_euclidian_algorithm, jota käytetään vain muiden metodien testaamiseen.
+`key.py` sisältää metodeja, joita tarvitaan salausavaimen luonnissa lukuun ottamatta alkulukujen luontia.
 
 `encryption.py` sisältää metodit, joilla viestejä salataan ja salauksia puretaan sekä metodit, joilla merkkijonoja muutetaan kokonaisluvuiksi ja toisin päin.
 
-`prime.py` sisältää metodit, joilla luodaan alkulukuja.
+`prime.py` sisältää metodit, joita tarvitaan alkulukujen luonnissa.
 
 Kansiossa src/tests/ ovat kaikki testit. Kansiossa src/tests/data on testien käyttämiä teksitiedostoja.
 
@@ -30,7 +30,7 @@ Kansiossa src/tests/ ovat kaikki testit. Kansiossa src/tests/data on testien kä
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
-Kun ohjelma luo salausavamia, se saattaa satunnaisesti luoda luvun ln, joka on jaollinen luvulla e. Tällöin metodi multiplicative_inverse (tiedostossa key.py) nostaa virheen (ValueError("e and ln are not coprime")) ja ohjelma pysähtyy. Näin voi käydä sekä silloin, kun käyttäjä käyttää ohjelmaa että silloin, kun ajetaan testejä. Ongelma on erittäin harvinainen.
+Kun ohjelma luo salausavamia, se saattaa satunnaisesti luoda luvun ln, joka on jaollinen luvulla e. Tällöin metodi multiplicative_inverse (tiedostossa key.py) nostaa virheen (ValueError("e and ln are not coprime")) ja ohjelma pysähtyy. Näin voi käydä sekä silloin, kun käyttäjä käyttää ohjelmaa että silloin, kun ajetaan testejä. Ongelma on hyvin harvinainen.
 
 Jos käyttäjä yrittää salata merkkejä, joiden Unicode-arvo on yli 255, ohjelma nostaa virheen ja pysähtyy.
 
