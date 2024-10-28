@@ -12,7 +12,9 @@ Ohjelman kaikki koodi sijaitsee src-kansiossa.
 
 `encryption.py` sisältää metodit, joilla viestejä salataan ja salauksia puretaan sekä metodit, joilla merkkijonoja muutetaan kokonaisluvuiksi ja toisin päin.
 
-`prime.py` sisältää metodit, joilla luodaan alkulukuja. 
+`prime.py` sisältää metodit, joilla luodaan alkulukuja.
+
+Kansiossa src/tests/ ovat kaikki testit. Kansiossa src/tests/data on testien käyttämiä teksitiedostoja.
 
 ## Algoritmien aikavaativuudet
 
@@ -76,9 +78,12 @@ https://t5k.org/lists/small/millions/ (Haettu 16.10.2024)
 1. RSA-challenge numbers.  
 https://www.ontko.com/pub/rayo/primes/rsa_fact.html (Haettu 23.10.2024)
 
-1. Jitender Punia, 2024: Euclidean Algorithm | Basic and Extended.
+1. Jitender Punia, 2024: Euclidean Algorithm | Basic and Extended.  
 https://www.scaler.com/topics/data-structures/euclidean-algorithm-basic-and-extended/ (Haettu 26.10.2024)
 
 1. GeeksforGeeks, 2023: How is the time complexity of Sieve of Eratosthenes is n*log(log(n))?  
 https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/ (Haettu 26.10.2024)
+
+1. dCode: Primality Test.
+https://www.dcode.fr/primality-test (Haettu 28.10.2024)
 
