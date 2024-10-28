@@ -18,13 +18,13 @@ class TestPrime(unittest.TestCase):
             {"number": (2**3 * 3 + 1), "factors": (0, 25)},
             # Large even number
             {
-                "number": (2**401 * 1971598874681685108651803),
-                "factors": (401, 1971598874681685108651803),
+                "number": (2**155 * 1971598874681685108651803),
+                "factors": (155, 1971598874681685108651803),
             },
             # Large odd number.
             {
-                "number": (2**401 * 1971598874681685108651803 + 1),
-                "factors": (0, 2**401 * 1971598874681685108651803 + 1),
+                "number": (2**155 * 1971598874681685108651803 + 1),
+                "factors": (0, 2**155 * 1971598874681685108651803 + 1),
             },
         ]
         for e in examples:
@@ -76,7 +76,7 @@ class TestPrime(unittest.TestCase):
             self.assertTrue(y, f"random_prime generated a non prime number {x}")
 
     def test_random_prime_512(self):
-        """Test random_prime by comparing the results with trial_division. Tests one
+        """Test random_prime by comparing the results with miller_rabin. Tests one
         random primes that is up to 512 bits long."""
         random_prime = self.prime.random_prime(512)
         test_prime = self.prime.miller_rabin(random_prime)

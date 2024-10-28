@@ -125,21 +125,3 @@ class Prime:
 
         primes = [i for i in range(2, n + 1) if primes[i]]
         return primes
-
-
-P = Prime()
-p = P.random_prime(512)
-print("p")
-print(p)
-
-i = 1
-while True:
-    p += 1
-    x = P.miller_rabin(p)
-    if x:
-        break
-    i += 1
-
-print("p")
-print(p)
-print("i", i)
