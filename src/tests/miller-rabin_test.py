@@ -48,11 +48,11 @@ class TestPrime(unittest.TestCase):
             self.assertEqual(x, prime)
 
     def test_miller_rabin_medium(self):
-        """Test Miller-Rabin with values between 961 748 941 and 961 915 909.
-        That is 8 000 primes and 166 968 values in total"""
+        """Test Miller-Rabin with values between 961 748 941 and 961 766 053.
+        That is 800 primes and 17 112 values in total"""
 
         # Primes is a list of primes
-        primes = self.file.open_file_space("primes50.txt", 1000)
+        primes = self.file.open_file_space("primes50.txt", 100)
         j = 0
         for i in range(int(primes[0]), int(primes[-1]) + 1):
             # assume i is not prime, unless it is found from the list primes

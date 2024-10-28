@@ -18,23 +18,23 @@ Kansiossa src/tests/ ovat kaikki testit. Kansiossa src/tests/data on testien kä
 
 ## Algoritmien aikavaativuudet
 
-- Miller-Rabin: O(k*log(n)^3) [2]
+- Miller-Rabin: O(k*log(n)^3). [2]
 
-- Eukleideen algoritmi: O(log(min(a, b)) [13]
+- Eukleideen algoritmi: O(log(min(a, b)). [13]
 
-  - Pienin yhteinen monikerta lasketaan Eukleideen algoritmilla kaavalla, joten sillä on sama aikavaativuus O(log(min(a, b))
+  - Pienin yhteinen monikerta lasketaan Eukleideen algoritmia hyödyntäen, joten sillä on sama aikavaativuus O(log(min(a, b)).
 
-  - Myös Eukleideen laajennetulla algoritmilla on sama aikavaativuus. Lisäksi Modulaariaritmetiikan käänteisluku (modular multiplicative inverse) selvitetään Eukleideen laajennetulla algoritmilla, joten silläkin on sama aikavaativuus O(log(min(a, b))
+  - Myös Eukleideen laajennetulla algoritmilla on sama aikavaativuus. Lisäksi Modulaariaritmetiikan käänteisluku (modular multiplicative inverse) selvitetään Eukleideen laajennetulla algoritmilla, joten silläkin on sama aikavaativuus O(log(min(a, b)).
 
-- Eratostheneen seula: O(n*log(log(n))) [14]
+- Eratostheneen seula: O(n*log(log(n))). [14]
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
-Kun ohjelma luo salausavamia, se saattaa satunnaisesti luoda luvun ln, joka on jaollinen luvulla e. Tällöin metodi multiplicative_inverse (tiedostossa key.py) nostaa virheen (ValueError("e and ln are not coprime")) ja ohjelma pysähtyy. Näin voi käydä sekä silloin, kun käyttäjä käyttää ohjelmaa että silloin, kun ajetaan testejä. Ongelma on hyvin harvinainen.
+Kun ohjelma luo salausavamia, se saattaa satunnaisesti luoda luvun ln, joka on jaollinen luvulla e. Tällöin metodi multiplicative_inverse (tiedostossa key.py) tuottaa virheen (ValueError("e and ln are not coprime")) ja ohjelma pysähtyy. Näin voi käydä sekä silloin, kun käyttäjä käyttää ohjelmaa että silloin, kun ajetaan testejä. Tämän todennäköisyys on hyvin pieni.
 
-Jos käyttäjä yrittää salata merkkejä, joiden Unicode-arvo on yli 255, ohjelma nostaa virheen ja pysähtyy.
+Jos käyttäjä yrittää salata merkkejä, joiden Unicode-arvo on yli 255, ohjelma tuottaa virheen ja pysähtyy.
 
-Vertaisarvioinnissa testi TestMessage.test_encryption_1024_big ei mennyt läpi. En tiedä mistä tämä johtui. Vertaisarvioija käytti Windowsia, joten kenties se vaikutti asiaan. Ongelmaa voi yrittää ratkaista poistamalla src/tests/data/text-128.txt -tiedostosta muutaman merkin.
+Vertaisarvioinnissa testi TestEncryption.test_encryption_1024_big ei mennyt läpi. En tiedä mistä tämä johtui. Vertaisarvioija käytti Windowsia, joten kenties se vaikutti asiaan. Ongelmaa voi yrittää ratkaista poistamalla src/tests/data/text-128.txt -tiedostosta muutaman merkin.
 
 ## Laajojen kielimallien käyttö
 
@@ -84,6 +84,6 @@ https://www.scaler.com/topics/data-structures/euclidean-algorithm-basic-and-exte
 1. GeeksforGeeks, 2023: How is the time complexity of Sieve of Eratosthenes is n*log(log(n))?  
 https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/ (Haettu 26.10.2024)
 
-1. dCode: Primality Test.
+1. dCode: Primality Test.  
 https://www.dcode.fr/primality-test (Haettu 28.10.2024)
 
