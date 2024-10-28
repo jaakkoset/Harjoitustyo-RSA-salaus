@@ -60,29 +60,40 @@ class TestKey(unittest.TestCase):
             self.assertEqual(x, y["gcd"])
 
     def test_extended_euclidean_algorithm(self):
+        """Test extended_euclidean_algorithm with precomputed gcd and Bezout
+        coefficients"""
         examples = [
-            (2, 10, 2, (1, 0)),
-            (240, 46, 2, (-9, 47)),
+            {
+                "a": 2,
+                "b": 10,
+                "gcd": 2,
+                "coefficients": (1, 0),
+            },
+            {
+                "a": 240,
+                "b": 46,
+                "gcd": 2,
+                "coefficients": (-9, 47),
+            },
         ]
         for e in examples:
-            # extended_euclidean_algorithm returns a dictionary
-            # {"coefficients": (x, y), "gcd": (gcd)}.
-            x = self.key.extended_euclidian_algorithm(e[0], e[1])
-            self.assertEqual(x["gcd"], e[2])
-            self.assertEqual(x["coefficients"], e[3])
+            x = self.key.extended_euclidian_algorithm(e["a"], e["b"])
+            self.assertEqual(x["gcd"], e["gcd"])
+            self.assertEqual(x["coefficients"], e["coefficients"])
 
     def test_extended_euclidean_algorithm_equation(self):
-        """Check that the extended Euclidean algorithm finds the solution for the
+        """Test that the extended Euclidean algorithm finds the solution for the
         equation ax + by = gcd(a,b), when given integers a and b."""
         examples = [
-            (240, 46),
-            (242130, 412321166),
+            {"a": 242130, "b": 412321166},
+            {"a": 10**300 * 182736 + 971234, "b": 1**300 * 8171265 + 19823764},
+            {"a": 65537, "b": 1**300 * 48927457727454 + 47598756186198561},
+            {"a": 65537, "b": 1**286 * 59876501435110615087 + 475987561861985616432},
         ]
         for e in examples:
-            # extended_euclidean_algorithm returns a dictionary
-            # {"coefficients": (x, y), "gcd": (gcd)}.
-            x = self.key.extended_euclidian_algorithm(e[0], e[1])
-            left = e[0] * x["coefficients"][0] + e[1] * x["coefficients"][1]
+            x = self.key.extended_euclidian_algorithm(e["a"], e["b"])
+            # Calculate left and rigth sides of ax + by = gcd(a,b)
+            left = e["a"] * x["coefficients"][0] + e["b"] * x["coefficients"][1]
             right = x["gcd"]
             self.assertEqual(left, right)
 

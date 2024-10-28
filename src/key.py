@@ -70,6 +70,9 @@ class Key:
         coefficients x and y of Bezout's identity ax + by = gcd(a,b). This method is
         not used in the program and is only used to test multiplicative_inverse and
         euclidean_algorithm.
+
+        Returns:
+        a dictionary {"coefficients": (x, y), "gcd": (gcd)}
         """
         # r stands for remainder.
         old_r, r = a, b
