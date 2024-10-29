@@ -17,13 +17,11 @@ class Encryption:
             raise ValueError("An empty string cannot be turned into an integer")
         hexadecimal = "0x"
         for character in text:
-            # Find the Unicode code point
             value = ord(character)
             if value > 255:
                 raise ValueError(
                     f"A non ASCII character found: {character} (value {value})"
                 )
-            # turn the value into a hexadecimal
             value = hex(value)
             # remove the 0x in the beginning of the hexadecimal
             value = str(value)[2:]
@@ -33,7 +31,6 @@ class Encryption:
 
             hexadecimal += value
 
-        # turn the hexadecimal into a decimal integer
         integer = int(hexadecimal, 16)
         return integer
 
@@ -42,18 +39,15 @@ class Encryption:
         hexadecimal = hex(integer)
         # remove the 0x at the beginning of the hexadecimal
         hexadecimal = str(hexadecimal)[2:]
-        # All characters have a two digits long hexadecimal representation, so this
-        # number must have an even amount of digits.
         if len(hexadecimal) % 2 != 0:
             raise ValueError(
                 f"The hexadecimal representation cannot have an odd number of digits"
             )
         text = ""
-        # A character has a two digits long hexadecimal representation, so we look at
+        # One character has a two digits long hexadecimal representation, so we look at
         # two digits at a time (i and i+1).
         for i in range(0, len(hexadecimal), 2):
             value = hexadecimal[i] + hexadecimal[i + 1]
-            # turn the hexadecimal into a decimal
             value = int(value, 16)
             character = chr(value)
             text += character
